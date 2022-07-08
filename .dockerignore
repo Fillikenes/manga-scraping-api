@@ -1,0 +1,9 @@
+.git/
+.gitignore
+.env
+node_modules/
+coverage/
+build/
+*.xls*
+docker-compose.yml
+*.md
