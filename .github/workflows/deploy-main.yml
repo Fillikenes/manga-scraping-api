@@ -2,9 +2,9 @@ name: Build deploy CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 env:
   ENVIRONMENT: development
   PORT: 3000
