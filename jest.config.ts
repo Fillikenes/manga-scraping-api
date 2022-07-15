@@ -1,6 +1,6 @@
 import type { Config } from '@jest/types';
 
-const config: Config.InitialOptions = {
+const jestConfig: Config.InitialOptions = {
   testMatch: ['**/?(*.)+(spec|test).+(ts)'],
   transform: {
     '^.+.(ts)$': 'ts-jest',
@@ -25,4 +25,4 @@ const config: Config.InitialOptions = {
   reporters: ['default'],
 };
 
-export default config;
+export default jestConfig;
