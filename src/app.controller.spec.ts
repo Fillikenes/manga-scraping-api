@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "OK"', () => {
-      expect(appController.health()).toEqual('OK');
+    it('should return message', () => {
+      expect(appController.info()).toEqual('webscraping-api');
     });
   });
 });

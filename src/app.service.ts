@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  health(): string {
-    return 'OK';
+  info(): string {
+    return 'webscraping-api';
   }
 }

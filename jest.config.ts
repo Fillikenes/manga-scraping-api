@@ -7,7 +7,8 @@ const jestConfig: Config.InitialOptions = {
   },
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/*.ts',
+    'src/**',
+    '!**/index.ts',
     '!src/main.ts',
     '!**/*.enum.ts',
     '!**/*.interface.ts',
