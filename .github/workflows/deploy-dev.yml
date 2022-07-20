@@ -5,6 +5,7 @@ on:
     branches: [ "dev" ]
   pull_request:
     branches: [ "dev" ]
+
 env:
   ENVIRONMENT: development
   PORT: 3000
@@ -52,6 +53,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy:
+    if: ${{ github.event_name != 'pull_request' }}
     name: Heroku
     runs-on: ubuntu-latest
     needs: analitics
@@ -61,6 +63,5 @@ jobs:
     - uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+        heroku_app_name: ${{ secrets.HEROKU_APP_NAME_DEV }}
         heroku_email: ${{ secrets.HEROKU_EMAIL }}
-        remote_branch: dev
