@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import * as Joi from 'joi';
+import Joi from 'joi';
 import { ConfigService } from './config.service';
 
 describe('ConfigService', () => {
