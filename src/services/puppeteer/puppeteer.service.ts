@@ -33,7 +33,7 @@ export class PuppeteerService {
     return page;
   }
 
-  async closeBrowser(browser: Browser) {
+  async closeBrowser(browser: Browser): Promise<void> {
     await browser.close();
   }
 
@@ -41,5 +41,9 @@ export class PuppeteerService {
     const client = await page.target().createCDPSession();
     await client.send('Network.clearBrowserCookies');
     await client.send('Network.clearBrowserCache');
+  }
+
+  async closePage(page: Page): Promise<void> {
+    await page.close();
   }
 }

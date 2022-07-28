@@ -5,7 +5,10 @@ import { LectorTmoService } from './lector-tmo.service';
 export class LectorTmoController {
   constructor(private readonly lectorTmoService: LectorTmoService) {}
   @Get()
-  async getData() {
-    return await this.lectorTmoService.foo();
+  async getData(): Promise<any> {
+    const url = 'https://lectortmo.com/library/manga/9276/one-punch-man';
+    return await this.lectorTmoService.getImagesChapter(
+      'https://lectortmo.com/library/manga/63575/boku-wa-isekai-de-fuyo-mahou-to-shoukan-mahou-wo-tenbin-ni-kakeru',
+    );
   }
 }
