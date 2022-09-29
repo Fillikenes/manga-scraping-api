@@ -29,7 +29,7 @@ export class PuppeteerService {
       await page.setUserAgent(userAgent);
     }
 
-    await page.goto(url);
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     return page;
   }
 

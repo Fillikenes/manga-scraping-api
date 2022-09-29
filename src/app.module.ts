@@ -14,5 +14,5 @@ import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 export class AppModule {
   public config = this.configService.config;
 
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Browser, Page } from 'puppeteer';
+import { sleep } from '../../shared/utils';
 import { PuppeteerService } from '../../services/puppeteer/puppeteer.service';
 import { IChapterContainer } from './models';
 
 @Injectable()
 export class LectorTmoService {
   constructor(private readonly puppeteerService: PuppeteerService) {}
-  async getImagesChapter(url): Promise<any> {
+  async getImagesChapter(url: string): Promise<any> {
     const browser = await this.puppeteerService.createBrowser();
     const mangaPage = await this.puppeteerService.goToPage({
       browser,
@@ -17,9 +18,14 @@ export class LectorTmoService {
     const chapters = await this._getChaptersInformation(mangaPage);
     await this.puppeteerService.clearCookies(mangaPage);
 
+    let attemps = 0;
     for (const chapter of chapters) {
       const validUrl = await this._getValidUrl(browser, chapter.url);
       chapter.images = await this._getImagesInformation(browser, validUrl);
+      attemps++;
+      if (attemps % 5 === 0) {
+        await sleep(5);
+      }
     }
 
     await this.puppeteerService.closeBrowser(browser);
