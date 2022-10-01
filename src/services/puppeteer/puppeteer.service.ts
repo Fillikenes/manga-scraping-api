@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer-extra';
 import Adblocker from 'puppeteer-extra-plugin-adblocker';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import randomUseragent from 'random-useragent';
+import { EDomContentLoaded, ENetworkProtocols } from './enums';
 import { IGoToPageParams } from './models';
 
 @Injectable()
@@ -29,7 +30,7 @@ export class PuppeteerService {
       await page.setUserAgent(userAgent);
     }
 
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { waitUntil: EDomContentLoaded.Domcontentloaded });
     return page;
   }
 
@@ -39,8 +40,8 @@ export class PuppeteerService {
 
   async clearCookies(page: Page): Promise<void> {
     const client = await page.target().createCDPSession();
-    await client.send('Network.clearBrowserCookies');
-    await client.send('Network.clearBrowserCache');
+    await client.send(ENetworkProtocols.Cookies);
+    await client.send(ENetworkProtocols.Cache);
   }
 
   async closePage(page: Page): Promise<void> {
