@@ -4,14 +4,15 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { HealthModule } from './modules/health/health.module';
+import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 
 @Module({
-  imports: [ConfigModule, HealthModule],
+  imports: [ConfigModule, HealthModule, LectorTmoModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
   public config = this.configService.config;
 
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 }
