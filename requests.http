@@ -3,3 +3,7 @@ GET http://localhost:3001 HTTP/1.1
 GET http://localhost:3001/health HTTP/1.1
 ###
 GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57813/the-player-that-cant-level-up HTTP/1.1
+### 
+### ANZ MANGA
+###
+GET http://localhost:3001/anz-manga HTTP/1.1
