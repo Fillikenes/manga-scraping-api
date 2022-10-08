@@ -6,6 +6,6 @@ import { HtmlParserService } from '../../services/html-parser/html-parser.servic
 
 @Module({
   providers: [AnzMangaService, HttpService, HtmlParserService],
-  controllers: [AnzMangaController]
+  controllers: [AnzMangaController],
 })
 export class AnzMangaModule {}
