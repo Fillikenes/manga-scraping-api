@@ -6,11 +6,12 @@ import { ConfigService } from './config/config.service';
 import { HealthModule } from './modules/health/health.module';
 import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 import { HttpService } from './services/http/http.service';
+import { HtmlParserService } from './services/html-parser/html-parser.service';
 
 @Module({
   imports: [ConfigModule, HealthModule, LectorTmoModule],
   controllers: [AppController],
-  providers: [AppService, HttpService],
+  providers: [AppService, HttpService, HtmlParserService],
 })
 export class AppModule {
   public config = this.configService.config;
