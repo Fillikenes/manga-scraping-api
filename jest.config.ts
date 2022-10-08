@@ -3,8 +3,9 @@ import type { Config } from '@jest/types';
 const jestConfig: Config.InitialOptions = {
   testMatch: ['**/?(*.)+(spec|test).+(ts)'],
   transform: {
-    '^.+.(ts)$': 'ts-jest',
+    '^.+.(js|ts)$': 'ts-jest',
   },
+  transformIgnorePatterns: ['node_modules'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**',
