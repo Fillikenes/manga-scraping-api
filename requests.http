@@ -12,4 +12,6 @@ GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/batsu-
 ###
 GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/kengan-omega HTTP/1.1
+GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
+###
+GET http://localhost:3001/anz-manga/search/one HTTP/1.1
