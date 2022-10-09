@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import got from 'got';
+import got, { Response } from 'got';
 import { IGetParams } from './models';
 
 @Injectable()
 export class HttpService {
-  public async get({ url, headers, query, isJson }: IGetParams) {
+  public async get({
+    url,
+    headers,
+    query,
+    isJson,
+  }: IGetParams): Promise<Response<string> | any> {
     const options = {
       ...(headers && { headers }),
       ...(query && { searchParams: { query } }),
