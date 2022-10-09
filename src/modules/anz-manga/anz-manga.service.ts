@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { HttpService } from '../../services/http/http.service';
+import { BASE_MANGA_PAGE_URL, BASE_SEARCH_URL } from './constants';
 import {
   EChapterAttribute,
   EChapterImageAttribute,
@@ -11,7 +12,7 @@ import {
   EChapterSeparatorName,
   EChaptersSelector,
 } from './enums';
-import { IChapter, IChapterImage } from './models';
+import { IChapter, IChapterImage, ISuggestionResponse } from './models';
 
 @Injectable()
 export class AnzMangaService {
@@ -19,6 +20,16 @@ export class AnzMangaService {
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
+
+  public async search(value: string) {
+    const { body } = await this.httpService.get(BASE_SEARCH_URL, {}, value);
+    const { suggestions }: ISuggestionResponse = JSON.parse(body);
+    const response = suggestions.map((suggestion) => ({
+      ...suggestion,
+      url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
+    }));
+    return response;
+  }
 
   public async getPage(url: string): Promise<IChapter[]> {
     const chapters = await this._getChapters(url);
