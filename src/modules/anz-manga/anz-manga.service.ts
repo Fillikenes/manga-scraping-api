@@ -22,8 +22,11 @@ export class AnzMangaService {
   ) {}
 
   public async search(value: string) {
-    const { body } = await this.httpService.get(BASE_SEARCH_URL, {}, value);
-    const { suggestions }: ISuggestionResponse = JSON.parse(body);
+    const { suggestions }: ISuggestionResponse = await this.httpService.get({
+      url: BASE_SEARCH_URL,
+      query: value,
+      isJson: true,
+    });
     const response = suggestions.map((suggestion) => ({
       ...suggestion,
       url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
@@ -44,7 +47,7 @@ export class AnzMangaService {
   }
 
   private async _getChapters(url: string): Promise<IChapter[]> {
-    const { body } = await this.httpService.get(url);
+    const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
       (element) => {
@@ -68,7 +71,7 @@ export class AnzMangaService {
   }
 
   private async _getChapterImages(url: string): Promise<IChapterImage[]> {
-    const { body } = await this.httpService.get(url);
+    const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChapterSelector.Images)].map(
       (element) => {
