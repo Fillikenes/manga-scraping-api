@@ -28,7 +28,7 @@ export class AnzMangaService {
       isJson: true,
     });
     const response = suggestions.map((suggestion) => ({
-      ...suggestion,
+      name: suggestion.value,
       url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
     }));
     return response;
