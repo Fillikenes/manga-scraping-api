@@ -80,7 +80,7 @@ describe('AnzMangaService', () => {
       expect(result).toEqual(expectedResponse);
       expect(getSpy).toHaveBeenCalledWith({
         url: BASE_SEARCH_URL,
-        query: params,
+        query: { query: params },
         isJson: true,
       });
     });

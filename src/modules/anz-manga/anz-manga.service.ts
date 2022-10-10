@@ -28,7 +28,7 @@ export class AnzMangaService {
   public async search(value: string) {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
       url: BASE_SEARCH_URL,
-      query: value,
+      query: { query: value },
       isJson: true,
     });
     return suggestions.map((suggestion: ISuggestionItemResponse) => {
