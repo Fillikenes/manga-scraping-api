@@ -53,11 +53,8 @@ export class AnzMangaService {
       (element) => {
         const urlSection = element.querySelector(EChapterSelector.Url);
         const title = urlSection.textContent;
-        const id = Number(
-          title
-            .split(EChapterSeparator.Name)
-            .at(EChapterSeparatorName.Identifier),
-        );
+        const titleSplit = title.split(EChapterSeparator.Name);
+        const id = Number(titleSplit[titleSplit.length - 1]);
         const url = urlSection.getAttribute(EChapterAttribute.Href);
         const name = element.querySelector(EChapterSelector.Name).textContent;
         return {
