@@ -7,9 +7,10 @@ import { HealthModule } from './modules/health/health.module';
 import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 import { HttpService } from './services/http/http.service';
 import { HtmlParserService } from './services/html-parser/html-parser.service';
+import { AnzMangaModule } from './modules/anz-manga/anz-manga.module';
 
 @Module({
-  imports: [ConfigModule, HealthModule, LectorTmoModule],
+  imports: [ConfigModule, HealthModule, LectorTmoModule, AnzMangaModule],
   controllers: [AppController],
   providers: [AppService, HttpService, HtmlParserService],
 })
