@@ -62,7 +62,7 @@ describe('HttpService', () => {
       expect(getSpy).toHaveBeenCalled();
       expect(getSpy).toHaveBeenCalledWith(params.url, {
         headers: params.headers,
-        searchParams: { query: params.query },
+        searchParams: params.query,
       });
     });
 
