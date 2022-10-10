@@ -31,13 +31,12 @@ export class AnzMangaService {
       query: value,
       isJson: true,
     });
-    const response = suggestions.map((suggestion: ISuggestionItemResponse) => {
+    return suggestions.map((suggestion: ISuggestionItemResponse) => {
       return {
         name: suggestion.value,
         url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
       };
     });
-    return response;
   }
 
   public async getPage(url: string): Promise<IChapter[]> {
