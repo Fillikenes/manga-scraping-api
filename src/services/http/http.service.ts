@@ -12,7 +12,7 @@ export class HttpService {
   }: IGetParams): Promise<Response<string> | any> {
     const options = {
       ...(headers && { headers }),
-      ...(query && { searchParams: { query } }),
+      ...(query && { searchParams: query }),
     };
 
     const request = got.get(url, options);
