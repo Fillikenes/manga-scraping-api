@@ -132,9 +132,7 @@ describe('AnzMangaService', () => {
           } as any;
         });
       let indexCurrentImagesChapter = 0;
-      jest
-        .spyOn(httpService, 'get')
-        .mockImplementation(async ({ url }) => responseImages);
+      jest.spyOn(httpService, 'get').mockResolvedValue(responseImages);
       jest
         .spyOn(htmlParserService, 'parseHtml')
         .mockImplementation(async (body) => {
@@ -159,6 +157,7 @@ describe('AnzMangaService', () => {
       const result = await service.getPage(params);
 
       expect(result).toBeDefined();
+      expect(result).toEqual(expectedResponse);
     });
   });
 });
