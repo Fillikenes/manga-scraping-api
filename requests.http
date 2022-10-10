@@ -8,7 +8,7 @@ GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57
 ###
 GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/batsu-hare HTTP/1.1
+GET http://localhost:3001/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
 ###
 GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
 ###

@@ -9,11 +9,11 @@ export class AnzMangaController {
   public async getManga(
     @Query() anzMangaQueryDto: AnzMangaQueryDto,
   ): Promise<any> {
-    return await this.anzMangaService.getPage(anzMangaQueryDto.url);
+    return this.anzMangaService.getPage(anzMangaQueryDto.url);
   }
 
   @Get('search/:value')
   public async searchManga(@Param() params: AnzMangaSearchDto) {
-    return await this.anzMangaService.search(params.value);
+    return this.anzMangaService.search(params.value);
   }
 }

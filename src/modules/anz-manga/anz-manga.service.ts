@@ -9,10 +9,14 @@ import {
   EChapterImageSeparatorDescription,
   EChapterSelector,
   EChapterSeparator,
-  EChapterSeparatorName,
   EChaptersSelector,
 } from './enums';
-import { IChapter, IChapterImage, ISuggestionResponse } from './models';
+import {
+  IChapter,
+  IChapterImage,
+  ISuggestionItemResponse,
+  ISuggestionResponse,
+} from './models';
 
 @Injectable()
 export class AnzMangaService {
@@ -27,16 +31,18 @@ export class AnzMangaService {
       query: value,
       isJson: true,
     });
-    const response = suggestions.map((suggestion) => ({
-      name: suggestion.value,
-      url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
-    }));
+    const response = suggestions.map((suggestion: ISuggestionItemResponse) => {
+      return {
+        name: suggestion.value,
+        url: `${BASE_MANGA_PAGE_URL}/${suggestion.data}`,
+      };
+    });
     return response;
   }
 
   public async getPage(url: string): Promise<IChapter[]> {
     const chapters = await this._getChapters(url);
-    const chaptersImagesPromises = chapters.map(async (chapter) => {
+    const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {
         ...chapter,
         images: await this._getChapterImages(chapter.url),
@@ -50,17 +56,17 @@ export class AnzMangaService {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
-      (element) => {
+      (element: Element) => {
         const urlSection = element.querySelector(EChapterSelector.Url);
         const title = urlSection.textContent;
         const titleSplit = title.split(EChapterSeparator.Name);
         const id = Number(titleSplit[titleSplit.length - 1]);
-        const url = urlSection.getAttribute(EChapterAttribute.Href);
+        const chapterUrl = urlSection.getAttribute(EChapterAttribute.Href);
         const name = element.querySelector(EChapterSelector.Name).textContent;
         return {
           id,
           name: name || title,
-          url,
+          url: chapterUrl,
           images: [],
         };
       },
@@ -71,9 +77,11 @@ export class AnzMangaService {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChapterSelector.Images)].map(
-      (element) => {
-        const url = element.getAttribute(EChapterImageAttribute.DataSrc).trim();
-        const correlative = parseInt(
+      (element: Element) => {
+        const imageUrl = element
+          .getAttribute(EChapterImageAttribute.DataSrc)
+          .trim();
+        const correlative = Number(
           element
             .getAttribute(EChapterImageAttribute.Alt)
             .split(EChapterImageSeparator.Description)[
@@ -82,7 +90,7 @@ export class AnzMangaService {
         );
         return {
           correlative,
-          url,
+          url: imageUrl,
         };
       },
     );
