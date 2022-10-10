@@ -8,12 +8,7 @@ export class InMangaController {
 
   @Get('/:manga')
   public async getManga(@Param() query: InMangaParamDto): Promise<any> {
-    const start = Date.now();
-    const response = await this.inMangaService.getPage(query.manga);
-    const end = Date.now();
-
-    console.log((end - start) / 1000);
-    return response;
+    return this.inMangaService.getPage(query.manga);
   }
 
   @Get('search/:manga')

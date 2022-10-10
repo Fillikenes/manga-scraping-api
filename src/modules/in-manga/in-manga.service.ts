@@ -21,7 +21,7 @@ export class InMangaService {
 
   public async search(value: string) {
     const query = { name: value };
-    const params = { url: BASE_SEARCH_MANGA_URL, query, isJson: true };
+    const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
     return JSON.parse(inMangaAPIResponse.data);
   }
@@ -70,11 +70,11 @@ export class InMangaService {
     name: string,
   ): Promise<any> {
     const query = { mangaIdentification: id };
-    const params = { url: BASE_SEARCH_CHAPTERS_URL, query, isJson: true };
+    const params = { query, url: BASE_SEARCH_CHAPTERS_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
     const jsonResponse = JSON.parse(inMangaAPIResponse.data);
 
-    const chapters = [...jsonResponse.result].map((chapter) => {
+    const chapters = [...jsonResponse.result].map((chapter: any) => {
       return {
         pagesCount: chapter.PagesCount,
         id: chapter.Number,
@@ -93,14 +93,14 @@ export class InMangaService {
   ): Promise<any> {
     const query = { identification: chapterId };
     const { body } = await this.httpService.get({
-      url: BASE_SEARCH_PAGES_URL,
       query,
+      url: BASE_SEARCH_PAGES_URL,
     });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChapterImagesSelector.Options)].map(
       (element: Element) => {
         const altId = element.getAttribute(EChapterImageAttribute.Value);
-        const page = parseInt(element.textContent);
+        const page = parseInt(element.textContent, 10);
         const baseUrl = `${BASE_IMAGES_URL}/manga/${mangaName}/chapter/${chapterNumber}/page/${page}/${altId}`;
         return { altId, page, url: baseUrl };
       },
