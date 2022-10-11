@@ -29,21 +29,21 @@ export class InMangaService {
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string): Promise<ISearchResponse> {
+  public async searchManga(value: string): Promise<ISearchResponse> {
     const query = { name: value };
     const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
     return JSON.parse(inMangaAPIResponse.data);
   }
 
-  public async getPage(value: string) {
+  public async getManga(value: string): Promise<IMangaInformation> {
     const manga = await this._getMangaInformation(value);
     const chapters = await this._getChaptersInformation(
       manga.altId,
       manga.helperName,
     );
     const chaptersImagesPromises: Promise<any>[] = chapters.map(
-      async (chapter: any) => {
+      async (chapter: IChapterInformation) => {
         return {
           ...chapter,
           images: await this._getChapterImages(
@@ -62,7 +62,7 @@ export class InMangaService {
   private async _getMangaInformation(
     manga: string,
   ): Promise<IMangaInformation> {
-    const jsonResponse = await this.search(manga);
+    const jsonResponse = await this.searchManga(manga);
 
     const { Name, Identification } = jsonResponse.result[EMangaSearched.First];
     const mangaName = String(Name).replace(SPACE_PATTERN, DASH_PATTERN);
@@ -100,7 +100,7 @@ export class InMangaService {
   private async _getChapterImages(
     mangaName: string,
     chapterId: string,
-    chapterNumber: string,
+    chapterNumber: number,
   ): Promise<IChapterImageInformation[]> {
     const query = { identification: chapterId };
     const { body } = await this.httpService.get({
