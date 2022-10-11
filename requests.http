@@ -15,3 +15,9 @@ GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisa
 GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
 ###
 GET http://localhost:3001/anz-manga/search/one HTTP/1.1
+### 
+### IN MANGA
+###
+GET http://localhost:3001/in-manga/One Punch Man
+###
+GET http://localhost:3001/in-manga/search/One Punch Man
