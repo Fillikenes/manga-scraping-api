@@ -7,10 +7,20 @@ import {
   BASE_SEARCH_CHAPTERS_URL,
   BASE_SEARCH_MANGA_URL,
   BASE_SEARCH_PAGES_URL,
+  DASH_PATTERN,
   SPACE_PATTERN,
 } from './constants';
-import { EChapterImageAttribute, EMangaSearched } from './enums';
-import { EChapterImagesSelector } from './enums/index';
+import {
+  EChapterImageAttribute,
+  EChapterImagesSelector,
+  EMangaSearched,
+} from './enums';
+import {
+  IChapterImageInformation,
+  IChapterInformation,
+  IMangaInformation,
+  ISearchResponse,
+} from './models';
 
 @Injectable()
 export class InMangaService {
@@ -19,7 +29,7 @@ export class InMangaService {
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string) {
+  public async search(value: string): Promise<ISearchResponse> {
     const query = { name: value };
     const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
@@ -46,15 +56,16 @@ export class InMangaService {
     );
 
     const resultChapters = await Promise.all(chaptersImagesPromises);
-    manga['chapters'] = [...resultChapters];
-    return { manga };
+    return { ...manga, chapters: [...resultChapters] };
   }
 
-  private async _getMangaInformation(manga: string): Promise<any> {
+  private async _getMangaInformation(
+    manga: string,
+  ): Promise<IMangaInformation> {
     const jsonResponse = await this.search(manga);
 
     const { Name, Identification } = jsonResponse.result[EMangaSearched.First];
-    const mangaName = String(Name).replace(SPACE_PATTERN, '-');
+    const mangaName = String(Name).replace(SPACE_PATTERN, DASH_PATTERN);
     const mangaUrl = `${BASE_MANGA_PAGE_URL}/${mangaName}/${Identification}`;
 
     return {
@@ -68,7 +79,7 @@ export class InMangaService {
   private async _getChaptersInformation(
     id: string,
     name: string,
-  ): Promise<any> {
+  ): Promise<IChapterInformation[]> {
     const query = { mangaIdentification: id };
     const params = { query, url: BASE_SEARCH_CHAPTERS_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
@@ -90,7 +101,7 @@ export class InMangaService {
     mangaName: string,
     chapterId: string,
     chapterNumber: string,
-  ): Promise<any> {
+  ): Promise<IChapterImageInformation[]> {
     const query = { identification: chapterId };
     const { body } = await this.httpService.get({
       query,

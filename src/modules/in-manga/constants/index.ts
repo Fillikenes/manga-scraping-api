@@ -2,6 +2,7 @@ export const PAGE_PATTERN =
   /(https?:\/\/)(www\.)?inmanga\.(com)\/ver\/manga\/[-a-z0-9]+/;
 
 export const SPACE_PATTERN = /\s+/g;
+export const DASH_PATTERN = '-';
 
 export const BASE_MANGA_PAGE_URL = 'https://inmanga.com/ver/manga';
 
