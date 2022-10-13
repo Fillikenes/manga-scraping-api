@@ -1,25 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TumangasService } from './tumangas.service';
+import { TuMangasService } from './tu-mangas.service';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
-import { EChapterList, EChartepListImgs } from './enums/index';
+import { EChapterList, EChartepListImgs } from './enums';
 import {
   listChapters,
   chapters,
   listImgsChapter,
   imgs,
   expectRequest,
-} from './mocks/index';
+} from './mocks';
 
 describe('TumangasService', () => {
-  let service: TumangasService;
+  let service: TuMangasService;
   let httpService: HttpService;
   let htmlParserService: HtmlParserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        TumangasService,
+        TuMangasService,
         {
           provide: HttpService,
           useValue: {
@@ -35,7 +35,7 @@ describe('TumangasService', () => {
       ],
     }).compile();
 
-    service = module.get<TumangasService>(TumangasService);
+    service = module.get<TuMangasService>(TuMangasService);
     httpService = module.get<HttpService>(HttpService);
     htmlParserService = module.get<HtmlParserService>(HtmlParserService);
   });

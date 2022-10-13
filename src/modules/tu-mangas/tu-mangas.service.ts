@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
-import { EChapterList, EChartepListImgs } from './enums/index';
+import { EChapterList, EChartepListImgs } from './enums';
 
 @Injectable()
-export class TumangasService {
+export class TuMangasService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParseService: HtmlParserService,

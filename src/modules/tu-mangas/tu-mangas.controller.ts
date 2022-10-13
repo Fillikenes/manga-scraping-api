@@ -1,9 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { TumangasService } from './tumangas.service';
+import { TuMangasService } from './tu-mangas.service';
 
-@Controller('tumangas')
-export class TumangasController {
-  constructor(private readonly tumangasService: TumangasService) {}
+@Controller('tu-mangas')
+export class TuMangasController {
+  constructor(private readonly tumangasService: TuMangasService) {}
   @Get('/')
   async getListCharacters(@Query() query): Promise<any> {
     return this.tumangasService.getMangaInfo(query.name);

@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TumangasController } from './tumangas.controller';
-import { TumangasService } from './tumangas.service';
+import { TuMangasController } from './tu-mangas.controller';
+import { TuMangasService } from './tu-mangas.service';
 
 describe('TumangasController', () => {
-  let controller: TumangasController;
-  let tuMangasService: TumangasService;
+  let controller: TuMangasController;
+  let tuMangasService: TuMangasService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [TumangasController],
+      controllers: [TuMangasController],
       providers: [
         {
-          provide: TumangasService,
+          provide: TuMangasService,
           useValue: {
             getMangaInfo: jest.fn(),
           },
@@ -18,8 +18,8 @@ describe('TumangasController', () => {
       ],
     }).compile();
 
-    controller = module.get<TumangasController>(TumangasController);
-    tuMangasService = module.get<TumangasService>(TumangasService);
+    controller = module.get<TuMangasController>(TuMangasController);
+    tuMangasService = module.get<TuMangasService>(TuMangasService);
   });
 
   it('should be defined', () => {
