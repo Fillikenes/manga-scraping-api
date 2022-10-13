@@ -4,8 +4,28 @@ GET http://localhost:3001/health HTTP/1.1
 ###
 GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57813/the-player-that-cant-level-up HTTP/1.1
 ###
+### TuMangas
+###
 GET http://localhost:3001/tumangas?name=one-punch-man
 ###
 GET http://localhost:3001/tumangas?name=el-salvaje-oeste-marcial
 ###
 GET http://localhost:3001/tumangas/one-punch-man/134.00
+### 
+### ANZ MANGA
+###
+GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
+###
+GET http://localhost:3001/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
+###
+GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
+###
+GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
+###
+GET http://localhost:3001/anz-manga/search/one HTTP/1.1
+### 
+### IN MANGA
+###
+GET http://localhost:3001/in-manga/One Punch Man
+###
+GET http://localhost:3001/in-manga/search/One Punch Man

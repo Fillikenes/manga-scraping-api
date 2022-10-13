@@ -4,13 +4,22 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { HealthModule } from './modules/health/health.module';
-import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 import { HttpService } from './services/http/http.service';
 import { HtmlParserService } from './services/html-parser/html-parser.service';
+import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
+import { AnzMangaModule } from './modules/anz-manga/anz-manga.module';
+import { InMangaModule } from './modules/in-manga/in-manga.module';
 import { TumangasModule } from './modules/tumangas/tumangas.module';
 
 @Module({
-  imports: [ConfigModule, HealthModule, LectorTmoModule, TumangasModule],
+  imports: [
+    ConfigModule,
+    HealthModule,
+    LectorTmoModule,
+    AnzMangaModule,
+    InMangaModule,
+    TumangasModule,
+  ],
   controllers: [AppController],
   providers: [AppService, HttpService, HtmlParserService],
 })
