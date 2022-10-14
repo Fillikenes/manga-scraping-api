@@ -47,7 +47,7 @@ describe('TumangasService', () => {
   });
 
   it('should return all information about a manga using a name valid to TuMangas webpage', async () => {
-    const nameManga = 'one-punch-man';
+    const nameManga = 'el-salvaje-oeste-marcial';
     const chapterResponse = {
       body: listChapters,
     };
@@ -62,17 +62,22 @@ describe('TumangasService', () => {
         return selectorFn[selector];
       }),
       innerHTML: {
-        trim: jest.fn().mockReturnValue('Cap 1'),
+        split: jest.fn().mockReturnValue([, chapter.chapterNumber]),
       },
     }));
-    const imagesElementsMock = imgs.map((img) => ({
-      getAttribute: jest.fn().mockImplementation((selector: string) => {
-        const selectorFn = {
-          [EChartepListImgs.src]: img.url,
-        };
-        return selectorFn[selector];
-      }),
-    }));
+    let aux = 0;
+    const imagesElementsMock = imgs.map((img) => {
+      aux++;
+      return {
+        getAttribute: jest.fn().mockImplementation((selector: string) => {
+          const selectorFn = {
+            [EChartepListImgs.src]: img.url,
+          };
+          return selectorFn[selector];
+        }),
+        correlative: aux,
+      };
+    });
 
     const getListChapterHttp = jest
       .spyOn(httpService, 'get')
@@ -90,6 +95,7 @@ describe('TumangasService', () => {
     const getImagesListChapterHttp = jest
       .spyOn(httpService, 'get')
       .mockResolvedValue(chapterImgsResponse);
+
     const getImagesListChapterHtml = jest
       .spyOn(htmlParserService, 'parseHtml')
       .mockImplementation(async (body) => {

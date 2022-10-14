@@ -22,6 +22,8 @@ describe('TumangasController', () => {
     tuMangasService = module.get<TuMangasService>(TuMangasService);
   });
 
+  afterEach(() => jest.clearAllMocks());
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
@@ -34,6 +36,7 @@ describe('TumangasController', () => {
         images: [
           {
             url: 'img1...',
+            correlative: 1,
           },
         ],
       },
