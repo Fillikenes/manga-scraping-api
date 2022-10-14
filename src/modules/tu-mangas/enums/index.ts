@@ -1,6 +1,7 @@
 export enum EChapterList {
   items = 'div.tagcloud>a',
   href = 'href',
+  charSplit = ' Capítulo ',
 }
 
 export enum EChartepListImgs {

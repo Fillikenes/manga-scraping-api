@@ -27,11 +27,11 @@ export class TuMangasService {
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EChapterList.items)].map(
       (el: Element) => {
-        const chapterName = el.innerHTML.trim();
-        const chapterNumber = parseFloat(chapterName.match(/\d+/g).join('.'));
+        const chapter = el.innerHTML.split(EChapterList.charSplit)[1];
+        const chapterNumber = Number(chapter);
         return {
           url: el.getAttribute(EChapterList.href),
-          chapterNumber: chapterNumber,
+          chapterNumber,
         };
       },
     );
@@ -40,8 +40,13 @@ export class TuMangasService {
   private async _getListImgs(url: string) {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
+    let aux = 0;
     return [...document.querySelectorAll(EChartepListImgs.imgs)].map((el) => {
-      return { url: el.getAttribute(EChartepListImgs.src) };
+      aux++;
+      return {
+        url: el.getAttribute(EChartepListImgs.src),
+        correlative: aux,
+      };
     });
   }
 }
