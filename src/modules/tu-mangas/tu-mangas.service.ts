@@ -40,13 +40,13 @@ export class TuMangasService {
   private async _getListImgs(url: string) {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
-    let aux = 0;
-    return [...document.querySelectorAll(EChartepListImgs.imgs)].map((el) => {
-      aux++;
-      return {
-        url: el.getAttribute(EChartepListImgs.src),
-        correlative: aux,
-      };
-    });
+    return [...document.querySelectorAll(EChartepListImgs.imgs)].map(
+      (el: Element, aux: number) => {
+        return {
+          url: el.getAttribute(EChartepListImgs.src),
+          correlative: aux + 1,
+        };
+      },
+    );
   }
 }
