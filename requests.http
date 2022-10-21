@@ -21,3 +21,7 @@ GET http://localhost:3001/anz-manga/search/one HTTP/1.1
 GET http://localhost:3001/in-manga/One Punch Man
 ###
 GET http://localhost:3001/in-manga/search/One Punch Man
+### 
+### Lector Manga
+###
+GET http://localhost:3001/lector-manga/one-punch-man HTTP/1.1
