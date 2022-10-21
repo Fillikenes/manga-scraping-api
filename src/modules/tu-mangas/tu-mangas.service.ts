@@ -3,6 +3,11 @@ import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { EChapterList, EChartepListImgs } from './enums';
 
+interface IChapter {
+  url: string;
+  chapterNumber: number;
+}
+
 @Injectable()
 export class TuMangasService {
   constructor(
@@ -12,7 +17,7 @@ export class TuMangasService {
 
   async getMangaInfo(name: string) {
     const listChapters = await this._getListChapters(name);
-    const infoManga = listChapters.map(async (chapter) => {
+    const infoManga = listChapters.map(async (chapter: IChapter) => {
       return {
         ...chapter,
         images: await this._getListImgs(chapter.url),
