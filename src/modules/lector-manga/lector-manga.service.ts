@@ -24,7 +24,7 @@ export class LectorMangaService {
     return Promise.all(promises);
   }
 
-  private _getChapters = async (nameManga: string): Promise<IChapter[]> => {
+  private async _getChapters(nameManga: string): Promise<IChapter[]> {
     const url = `https://lectormanga.online/manga/${nameManga}/`;
     const { body } = await this.httpService.get({
       url,
@@ -38,8 +38,8 @@ export class LectorMangaService {
         };
       },
     );
-  };
-  private _getImgsChapter = async (url: string): Promise<IImage[]> => {
+  }
+  private async _getImgsChapter(url: string): Promise<IImage[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EImageSelector.selector)].map(
@@ -50,5 +50,5 @@ export class LectorMangaService {
         };
       },
     );
-  };
+  }
 }

@@ -5,7 +5,7 @@ export class LectorMangaController {
   constructor(private readonly lectorMangaService: LectorMangaService) {}
 
   @Get('/:manga')
-  async getManga(@Param() query) {
-    return await this.lectorMangaService.getInfoManga(query.manga);
+  getManga(@Param() query) {
+    return this.lectorMangaService.getInfoManga(query.manga);
   }
 }
