@@ -6,7 +6,6 @@ export class LectorMangaController {
 
   @Get('/:manga')
   async getManga(@Param() query) {
-    // console.log('a', query.manga);
     return await this.lectorMangaService.getInfoManga(query.manga);
   }
 }
