@@ -4,6 +4,7 @@ import { TmoLectorNetService } from './tmo-lector-net.service';
 
 describe('TmoLectorNetController', () => {
   let controller: TmoLectorNetController;
+  let service: TmoLectorNetService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,13 +12,19 @@ describe('TmoLectorNetController', () => {
       providers: [
         {
           provide: TmoLectorNetService,
-          useValue: {},
+          useValue: {
+            getPage: jest.fn(),
+            search: jest.fn(),
+          },
         },
       ],
     }).compile();
 
     controller = module.get<TmoLectorNetController>(TmoLectorNetController);
+    service = module.get<TmoLectorNetService>(TmoLectorNetService);
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
