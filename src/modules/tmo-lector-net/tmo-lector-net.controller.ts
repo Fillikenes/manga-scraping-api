@@ -6,6 +6,7 @@ import {
   ParseBoolPipe,
   Query,
 } from '@nestjs/common';
+import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dto';
 import { TmoLectorNetService } from './tmo-lector-net.service';
 
 @Controller('tmo-lector-net')
@@ -13,16 +14,15 @@ export class TmoLectorNetController {
   constructor(private readonly tmoLectorNetService: TmoLectorNetService) {}
 
   @Get('/')
-  public async getManga(): Promise<any> {
-    const url = 'https://tmolector.net/manga/one-punch-man';
-    return this.tmoLectorNetService.getPage(url);
+  public async getManga(@Query() params: TmoLectorNetParamDto) {
+    return this.tmoLectorNetService.getPage(params.url);
   }
 
-  @Get('search/:manga')
+  @Get('search/:value')
   public async searchManga(
-    @Param() params: any,
+    @Param() params: TmoLectorNetSearchParamDto,
     @Query('getAll', new DefaultValuePipe(false), ParseBoolPipe) getAll = false,
   ): Promise<any> {
-    return this.tmoLectorNetService.search(params.manga, getAll);
+    return this.tmoLectorNetService.search(params.value, getAll);
   }
 }
