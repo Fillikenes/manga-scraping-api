@@ -2,6 +2,21 @@ import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
+import {
+  EChapterAttribute,
+  EChapterIdReplace,
+  EChapterImageAttribute,
+  EChapterSelector,
+  EChapterSeparator,
+  EChaptersSelector,
+  ESearchMangaAttribute,
+  ESearchMangaImageAttribute,
+  ESearchMangaPagination,
+  ESearchMangaSelector,
+  ESearchMangasSelector,
+  ESearchPageNumber,
+} from './enums';
+import { BASE_SEARCH_URL } from './constants';
 
 @Injectable()
 export class TmoLectorNetService {
@@ -12,15 +27,19 @@ export class TmoLectorNetService {
 
   public async search(value: string, getAll = false) {
     const { results, hasMorePages, totalPages } =
-      await this._getMangasFromSearch(value, 1);
+      await this._getMangasFromSearch({
+        value,
+        pageNbr: ESearchPageNumber.Default,
+      });
 
     if (getAll && hasMorePages) {
-      const searchPromises = _.range(2, totalPages + 1).map(
-        async (pageNbr: number) => {
-          const response = await this._getMangasFromSearch(value, pageNbr);
-          return response.results;
-        },
-      );
+      const searchPromises = _.range(
+        ESearchPageNumber.InitialIteration,
+        totalPages + 1,
+      ).map(async (pageNbr: number) => {
+        const response = await this._getMangasFromSearch({ value, pageNbr });
+        return response.results;
+      });
       const responses = await Promise.all(searchPromises);
       results.push(..._.flattenDeep(responses));
     }
@@ -28,27 +47,35 @@ export class TmoLectorNetService {
     return results;
   }
 
-  private async _getMangasFromSearch(value: string, pageNbr: number) {
-    const base_url = 'https://tmolector.net/biblioteca';
-    const params = { query: { search: value, page: pageNbr }, url: base_url };
+  private async _getMangasFromSearch({
+    value,
+    pageNbr,
+  }: {
+    value: string;
+    pageNbr: number;
+  }) {
+    const params = {
+      query: { search: value, page: pageNbr },
+      url: BASE_SEARCH_URL,
+    };
     const { body } = await this.httpService.get(params);
     const document = await this.htmlParser.parseHtml(body);
     const results = [
-      ...document.querySelectorAll(
-        '.manga_portada > .page-item-detail > .manga_biblioteca > a',
-      ),
+      ...document.querySelectorAll(ESearchMangasSelector.Pages),
     ].map((element: Element) => {
-      const url = element.getAttribute('href');
-      const name = element.getAttribute('title');
-      const thumbnail = element.querySelector('img').getAttribute('src');
+      const url = element.getAttribute(ESearchMangaAttribute.Href);
+      const name = element.getAttribute(ESearchMangaAttribute.Title);
+      const thumbnail = element
+        .querySelector(ESearchMangaSelector.Image)
+        .getAttribute(ESearchMangaImageAttribute.Source);
       return {
         url,
         name,
         thumbnail,
       };
     });
-    const { length, [length - 2]: totalPages } = [
-      ...document.querySelectorAll('.pagination > .page-item'),
+    const { length, [length + ESearchMangaPagination.LastPage]: totalPages } = [
+      ...document.querySelectorAll(ESearchMangasSelector.Pagination),
     ].map((item: Element) => Number(item.textContent));
     return {
       hasMorePages: !!totalPages,
@@ -74,28 +101,33 @@ export class TmoLectorNetService {
   private async _getChapters(url: string): Promise<any[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
-    return [
-      ...document.querySelectorAll(
-        '.sub-chap.list-chap > .wp-manga-chapter > a',
-      ),
-    ].map((element: Element) => {
-      const [chapterInfo, name] = element.textContent.trim().split(' : '); // textContent => Capítulo 209.00 : Al cuadrado || Capítulo 201.00
-      const id = Number(chapterInfo.replace('Capítulo ', ''));
-      const url = element.getAttribute('href');
-      return {
-        id,
-        url,
-        name: name || chapterInfo,
-      };
-    });
+    return [...document.querySelectorAll(EChaptersSelector.Items)].map(
+      (element: Element) => {
+        const [chapterInfo, name] = element.textContent
+          .trim()
+          .split(EChapterSeparator.Name); // textContent => Capítulo 209.00 : Al cuadrado || Capítulo 201.00
+        const id = Number(
+          chapterInfo.replace(
+            EChapterIdReplace.search,
+            EChapterIdReplace.replace,
+          ),
+        );
+        const url = element.getAttribute(EChapterAttribute.Href);
+        return {
+          id,
+          url,
+          name: name || chapterInfo,
+        };
+      },
+    );
   }
 
   private async _getChapterImages(url: string): Promise<any[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
-    return [...document.querySelectorAll('#images_chapter > img')].map(
+    return [...document.querySelectorAll(EChapterSelector.Images)].map(
       (element: Element, index: number) => {
-        const url = element.getAttribute('data-src');
+        const url = element.getAttribute(EChapterImageAttribute.DataSrc);
         return {
           url,
           correlative: index + 1,
