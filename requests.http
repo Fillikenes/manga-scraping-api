@@ -3,7 +3,13 @@ GET http://localhost:3001 HTTP/1.1
 GET http://localhost:3001/health HTTP/1.1
 ###
 GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57813/the-player-that-cant-level-up HTTP/1.1
-### 
+###
+### TuMangas
+###
+GET http://localhost:3001/tu-mangas?name=one-punch-man
+###
+GET http://localhost:3001/tu-mangas?name=el-salvaje-oeste-marcial
+###
 ### ANZ MANGA
 ###
 GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
