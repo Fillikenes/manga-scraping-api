@@ -25,7 +25,7 @@ export class TmoLectorNetService {
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string, getAll = false) {
+  public async search(value: string, getAll: boolean) {
     const { results, hasMorePages, totalPages } =
       await this._getMangasFromSearch({
         value,
@@ -79,8 +79,8 @@ export class TmoLectorNetService {
     ].map((item: Element) => Number(item.textContent));
     return {
       hasMorePages: !!totalPages,
-      hasPreviousPage: totalPages ? 1 < pageNbr : false,
-      hasNextPage: totalPages ? pageNbr < totalPages : false,
+      hasPreviousPage: totalPages && 1 < pageNbr,
+      hasNextPage: totalPages && pageNbr < totalPages,
       totalPages,
       results,
     };
