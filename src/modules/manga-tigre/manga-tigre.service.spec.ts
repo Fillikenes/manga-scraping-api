@@ -40,9 +40,12 @@ describe('MangaTigreService', () => {
     }).compile();
 
     service = module.get<MangaTigreService>(MangaTigreService);
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     httpService = module.get<HttpService>(HttpService);
     puppeteerService = module.get<PuppeteerService>(PuppeteerService);
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   it('should be defined', () => {
     expect(service).toBeDefined();
