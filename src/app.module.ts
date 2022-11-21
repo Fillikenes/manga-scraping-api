@@ -10,6 +10,7 @@ import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 import { AnzMangaModule } from './modules/anz-manga/anz-manga.module';
 import { InMangaModule } from './modules/in-manga/in-manga.module';
 import { MangaTigreModule } from './modules/manga-tigre/manga-tigre.module';
+import { TuMangasModule } from './modules/tu-mangas/tu-mangas.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MangaTigreModule } from './modules/manga-tigre/manga-tigre.module';
     AnzMangaModule,
     InMangaModule,
     MangaTigreModule,
+    TuMangasModule,
   ],
   controllers: [AppController],
   providers: [AppService, HttpService, HtmlParserService],
