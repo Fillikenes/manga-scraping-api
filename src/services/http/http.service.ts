@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import got, { Response } from 'got';
-import { IGetParams } from './models';
+import { IGetParams, IPostParams } from './models';
 
 @Injectable()
 export class HttpService {
@@ -16,6 +16,19 @@ export class HttpService {
     };
 
     const request = got.get(url, options);
+    return isJson ? request.json() : request;
+  }
+
+  public async post({
+    url,
+    query,
+    isJson,
+  }: IPostParams): Promise<Response<string> | any> {
+    const headers = query.headers;
+    delete query.headers;
+    const options = { json: query, headers };
+
+    const request = got.post(url, options);
     return isJson ? request.json() : request;
   }
 }
