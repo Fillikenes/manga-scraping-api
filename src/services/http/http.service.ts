@@ -24,9 +24,12 @@ export class HttpService {
     query,
     isJson,
   }: IPostParams): Promise<Response<string> | any> {
-    const headers = query.headers;
-    delete query.headers;
-    const options = { json: query, headers };
+    let options = {};
+    if (query) {
+      const headers = query.headers;
+      delete query.headers;
+      options = { json: query, headers };
+    }
 
     const request = got.post(url, options);
     return isJson ? request.json() : request;
