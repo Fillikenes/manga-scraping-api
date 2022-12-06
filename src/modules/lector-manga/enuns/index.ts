@@ -1,15 +1,19 @@
 export enum EChapterSelector {
-  selector = 'ul.main > li > a',
+  Selector = 'ul.main > li > a',
 }
 
 export enum EChapterAttribute {
-  href = 'href',
+  Href = 'href',
 }
 
 export enum EImageSelector {
-  selector = 'div.reading-content > div.page-break > img',
+  Selector = 'div.reading-content > div.page-break > img',
 }
 
 export enum EImageAttribute {
-  src = 'data-lazy-src',
+  Src = 'data-lazy-src',
+}
+
+export enum ESearchMangaSelector {
+  Selector = 'div.post-title>h3>a',
 }

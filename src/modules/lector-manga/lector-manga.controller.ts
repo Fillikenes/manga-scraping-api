@@ -8,4 +8,9 @@ export class LectorMangaController {
   getManga(@Param() query) {
     return this.lectorMangaService.getInfoManga(query.manga);
   }
+
+  @Get('/search/:manga')
+  searchManga(@Param() query) {
+    return this.lectorMangaService.searchManga(query.manga);
+  }
 }
