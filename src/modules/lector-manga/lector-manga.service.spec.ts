@@ -7,6 +7,8 @@ import {
   imgs,
   listChapters,
   listImgsChapter,
+  listMangas,
+  mangas,
   mockParam,
 } from './mocks/index';
 import { EChapterAttribute, EImageAttribute } from './enuns/index';
@@ -58,7 +60,7 @@ describe('LectorMangaService', () => {
     const chapterElementMock = chapters.map((chapter) => ({
       getAttribute: jest.fn().mockImplementationOnce((selector: string) => {
         const selectorFn = {
-          [EChapterAttribute.href]: chapter.urlChapter,
+          [EChapterAttribute.Href]: chapter.urlChapter,
         };
         return selectorFn[selector];
       }),
@@ -68,7 +70,7 @@ describe('LectorMangaService', () => {
     const imgElementMock = imgs.map((img, aux) => ({
       getAttribute: jest.fn().mockImplementation((selector: string) => {
         const selectorFn = {
-          [EImageAttribute.src]: img.url,
+          [EImageAttribute.Src]: img.url,
         };
         return selectorFn[selector];
       }),
@@ -107,5 +109,39 @@ describe('LectorMangaService', () => {
     expect(getImgsChapter).toBeCalled();
     expect(getIgmsChapterHtml).toBeCalled();
     expect(result).toEqual(chapters);
+  });
+  it('it should return a list of manga search', async () => {
+    const mangaResponse = {
+      body: listMangas,
+    };
+
+    const mangaElementMock = mangas.map((manga) => ({
+      getAttribute: jest.fn().mockImplementationOnce((selector: string) => {
+        const selectorFn = {
+          [EChapterAttribute.Href]: manga.url,
+        };
+        return selectorFn[selector];
+      }),
+      innerHTML: manga.name,
+    }));
+
+    const searchManga = jest
+      .spyOn(httpService, 'get')
+      .mockResolvedValueOnce(mangaResponse);
+
+    const getMangaHtml = jest
+      .spyOn(htmlParserService, 'parseHtml')
+      .mockImplementationOnce((body) => {
+        expect(body).toEqual(listMangas);
+        return {
+          querySelectorAll: jest.fn().mockReturnValueOnce(mangaElementMock),
+        } as any;
+      });
+
+    const result = await service.searchManga(mockParam.manga);
+    console.log(result);
+    expect(searchManga).toBeCalled();
+    expect(getMangaHtml).toBeCalled();
+    expect(result).toEqual(mangas);
   });
 });
