@@ -9,6 +9,17 @@ El salvaje oeste marcial Capítulo 5.00
 </div>
 `;
 
+export const listMangas = `
+<article class="anime">
+<a href="https://tumangas.net/manga/me-converti-en-un-actor-superior-solo-por-leer-libros">
+</a>
+</article>
+<article class="anime">
+<a href="https://tumangas.net/manga/el-villano-me-ama-solo-a-mi">
+</a>
+</article>
+`;
+
 export const chapters = [
   {
     url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-6.00',
@@ -17,6 +28,17 @@ export const chapters = [
   {
     url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-5.00',
     chapterNumber: 5,
+  },
+];
+
+export const mangas = [
+  {
+    name: 'me converti en un actor superior solo por leer libros',
+    url: 'https://tumangas.net/manga/me-converti-en-un-actor-superior-solo-por-leer-libros',
+  },
+  {
+    name: 'el villano me ama solo a mi',
+    url: 'https://tumangas.net/manga/el-villano-me-ama-solo-a-mi',
   },
 ];
 
