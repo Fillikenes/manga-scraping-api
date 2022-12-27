@@ -17,6 +17,7 @@ import {
   ESearchPageNumber,
 } from './enums';
 import { BASE_SEARCH_URL } from './constants';
+import { IOutboundChapter, IOutboundSearchResponse } from '../../interfaces';
 
 @Injectable()
 export class TmoLectorNetService {
@@ -25,7 +26,10 @@ export class TmoLectorNetService {
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string, getAll: boolean) {
+  public async search(
+    value: string,
+    getAll: boolean,
+  ): Promise<IOutboundSearchResponse[]> {
     const { results, hasMorePages, totalPages } =
       await this._getMangasFromSearch({
         value,
@@ -44,16 +48,15 @@ export class TmoLectorNetService {
       results.push(..._.flattenDeep(responses));
     }
 
-    return results;
+    return results.map((result) => {
+      return {
+        name: result.name,
+        url: result.url,
+      };
+    });
   }
 
-  private async _getMangasFromSearch({
-    value,
-    pageNbr,
-  }: {
-    value: string;
-    pageNbr: number;
-  }) {
+  private async _getMangasFromSearch({ value, pageNbr }) {
     const params = {
       query: { search: value, page: pageNbr },
       url: BASE_SEARCH_URL,
@@ -86,11 +89,12 @@ export class TmoLectorNetService {
     };
   }
 
-  public async getPage(url: string) {
+  public async getPage(url: string): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
     const chaptersImagesPromises = chapters.map(async (chapter: any) => {
       return {
-        ...chapter,
+        id: chapter.id,
+        name: chapter.name,
         images: await this._getChapterImages(chapter.url),
       };
     });
