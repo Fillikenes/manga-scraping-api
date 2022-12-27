@@ -32,7 +32,7 @@ describe('InMangaController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('#getManga', () => {
+  describe('#get', () => {
     it('should get the information of a manga based in the manga name', async () => {
       const params: InMangaParamDto = {
         manga: 'One Piece',
@@ -41,7 +41,7 @@ describe('InMangaController', () => {
         .spyOn(service, 'getManga')
         .mockResolvedValue(mangaResponse);
 
-      const result = await controller.getManga(params);
+      const result = await controller.get(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(mangaResponse);
@@ -49,7 +49,7 @@ describe('InMangaController', () => {
     });
   });
 
-  describe('#getManga', () => {
+  describe('#search', () => {
     it('should get the information of a manga based in the manga name', async () => {
       const params: InMangaParamDto = {
         manga: 'One Piece',
@@ -58,7 +58,7 @@ describe('InMangaController', () => {
         .spyOn(service, 'searchManga')
         .mockResolvedValue(searchResponse);
 
-      const result = await controller.searchManga(params);
+      const result = await controller.search(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(searchResponse);

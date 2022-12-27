@@ -21,6 +21,7 @@ import {
   IMangaInformation,
   ISearchResponse,
 } from './models';
+import { IOutboundChapter, IOutboundImage } from '../../interfaces';
 
 @Injectable()
 export class InMangaService {
@@ -36,16 +37,17 @@ export class InMangaService {
     return JSON.parse(inMangaAPIResponse.data);
   }
 
-  public async getManga(value: string): Promise<IMangaInformation> {
+  public async getManga(value: string): Promise<IOutboundChapter[]> {
     const manga = await this._getMangaInformation(value);
     const chapters = await this._getChaptersInformation(
       manga.altId,
       manga.helperName,
     );
-    const chaptersImagesPromises: Promise<any>[] = chapters.map(
+    const chaptersImagesPromises: Promise<IOutboundChapter>[] = chapters.map(
       async (chapter: IChapterInformation) => {
         return {
-          ...chapter,
+          id: chapter.id,
+          name: `Chapter ${chapter.id}`,
           images: await this._getChapterImages(
             manga.helperName,
             chapter.altId,
@@ -55,8 +57,7 @@ export class InMangaService {
       },
     );
 
-    const resultChapters = await Promise.all(chaptersImagesPromises);
-    return { ...manga, chapters: [...resultChapters] };
+    return Promise.all(chaptersImagesPromises);
   }
 
   private async _getMangaInformation(
@@ -101,7 +102,7 @@ export class InMangaService {
     mangaName: string,
     chapterId: string,
     chapterNumber: number,
-  ): Promise<IChapterImageInformation[]> {
+  ): Promise<IOutboundImage[]> {
     const query = { identification: chapterId };
     const { body } = await this.httpService.get({
       query,
@@ -113,7 +114,10 @@ export class InMangaService {
         const altId = element.getAttribute(EChapterImageAttribute.Value);
         const page = parseInt(element.textContent, 10);
         const baseUrl = `${BASE_IMAGES_URL}/manga/${mangaName}/chapter/${chapterNumber}/page/${page}/${altId}`;
-        return { altId, page, url: baseUrl };
+        return {
+          correlative: page,
+          url: baseUrl,
+        };
       },
     );
   }

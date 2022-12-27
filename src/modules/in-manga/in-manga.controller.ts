@@ -1,23 +1,26 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { InMangaService } from './in-manga.service';
 import { InMangaParamDto } from './dto';
-import { IMangaInformation, ISearchResponse } from './models';
+import {
+  IBaseController,
+  IOutboundChapter,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 
 @Controller('in-manga')
-export class InMangaController {
+export class InMangaController implements IBaseController {
   constructor(private readonly inMangaService: InMangaService) {}
 
   @Get('/:manga')
-  public async getManga(
+  public async get(
     @Param() query: InMangaParamDto,
-  ): Promise<IMangaInformation> {
+  ): Promise<IOutboundChapter[]> {
     return this.inMangaService.getManga(query.manga);
   }
 
+  // TODO: FIX TO STANDARIZE RESPONDE TO OUTBOUND INTERFACE
   @Get('search/:manga')
-  public async searchManga(
-    @Param() params: InMangaParamDto,
-  ): Promise<ISearchResponse> {
+  public async search(@Param() params: InMangaParamDto): Promise<any> {
     return this.inMangaService.searchManga(params.manga);
   }
 }
