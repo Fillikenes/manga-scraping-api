@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TuMangasGetListDto, TuMangasSearchDto } from './dto';
 import { TuMangasController } from './tu-mangas.controller';
 import { TuMangasService } from './tu-mangas.service';
 
@@ -42,7 +43,9 @@ describe('TumangasController', () => {
         ],
       },
     ];
-    const param = 'www.manga.com/name=mange1';
+    const param: TuMangasGetListDto = {
+      name: 'www.manga.com/name=mange1',
+    };
     const getMangaInfoSpy = jest
       .spyOn(tuMangasService, 'getMangaInfo')
       .mockResolvedValue(expectResponse);
@@ -60,7 +63,9 @@ describe('TumangasController', () => {
         name: 'solo',
       },
     ];
-    const param = 'solo';
+    const param: TuMangasSearchDto = {
+      nameManga: 'solo',
+    };
     const getMangaInfoSpy = jest
       .spyOn(tuMangasService, 'searchManga')
       .mockResolvedValue(expectResponse);
