@@ -36,6 +36,12 @@ GET http://localhost:3001/tmo-lector-net/search/ab
 ###
 GET http://localhost:3001/tmo-lector-net/search/ab?getAll=true
 ### 
+### Lector Manga
+###
+GET http://localhost:3001/lector-manga/one-punch-man HTTP/1.1
+###
+GET http://localhost:3001/lector-manga/search/one-punch-man HTTP/1.1
+###
 ### MANGA TIGRE
 ###
 GET http://localhost:3001/manga-tigre/One Punch Man
