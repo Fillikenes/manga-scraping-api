@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { TuMangasGetListDto, TuMangasSearchDto } from './dto';
 import { TuMangasController } from './tu-mangas.controller';
 import { TuMangasService } from './tu-mangas.service';
 
@@ -13,6 +14,7 @@ describe('TumangasController', () => {
           provide: TuMangasService,
           useValue: {
             getMangaInfo: jest.fn(),
+            searchManga: jest.fn(),
           },
         },
       ],
@@ -41,12 +43,34 @@ describe('TumangasController', () => {
         ],
       },
     ];
-    const param = 'www.manga.com/name=mange1';
+    const param: TuMangasGetListDto = {
+      name: 'www.manga.com/name=mange1',
+    };
     const getMangaInfoSpy = jest
       .spyOn(tuMangasService, 'getMangaInfo')
       .mockResolvedValue(expectResponse);
 
     const result = await controller.getListCharacters(param);
+    expect(result).toBeDefined();
+    expect(result).toEqual(expectResponse);
+    expect(getMangaInfoSpy).toHaveBeenCalled();
+  });
+
+  it('should return an array with mangas searched', async () => {
+    const expectResponse = [
+      {
+        url: '...',
+        name: 'solo',
+      },
+    ];
+    const param: TuMangasSearchDto = {
+      nameManga: 'solo',
+    };
+    const getMangaInfoSpy = jest
+      .spyOn(tuMangasService, 'searchManga')
+      .mockResolvedValue(expectResponse);
+
+    const result = await controller.searchManga(param);
     expect(result).toBeDefined();
     expect(result).toEqual(expectResponse);
     expect(getMangaInfoSpy).toHaveBeenCalled();

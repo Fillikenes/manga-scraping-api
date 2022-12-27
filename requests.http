@@ -8,6 +8,8 @@ GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57
 ###
 GET http://localhost:3001/tu-mangas?name=one-punch-man
 ###
+GET http://localhost:3001/tu-mangas/search/solo
+###
 GET http://localhost:3001/tu-mangas?name=el-salvaje-oeste-marcial
 ###
 ### ANZ MANGA

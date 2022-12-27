@@ -2,13 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TuMangasService } from './tu-mangas.service';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
-import { EChapterList, EChartepListImgs } from './enums';
+import { EChapterList, EChartepListImgs, EMangaSelector } from './enums';
+// import { EMangaSelector } from './enums/index';
 import {
   listChapters,
   chapters,
   listImgsChapter,
   imgs,
   expectRequest,
+  listMangas,
+  mangas,
 } from './mocks';
 
 describe('TumangasService', () => {
@@ -65,9 +68,7 @@ describe('TumangasService', () => {
         split: jest.fn().mockReturnValue([, chapter.chapterNumber]),
       },
     }));
-    let aux = 0;
-    const imagesElementsMock = imgs.map((img) => {
-      aux++;
+    const imagesElementsMock = imgs.map((img, aux) => {
       return {
         getAttribute: jest.fn().mockImplementation((selector: string) => {
           const selectorFn = {
@@ -111,5 +112,39 @@ describe('TumangasService', () => {
     expect(getImagesListChapterHttp).toBeCalled();
     expect(getImagesListChapterHtml).toBeCalled();
     expect(result).toEqual(expectRequest);
+  });
+
+  it('should return a list of mangas find in the page tu mangas', async () => {
+    const searchManga = 'solo';
+    const mangasResponse = {
+      body: listMangas,
+    };
+
+    const mangasElementsMock = mangas.map((manga) => ({
+      getAttribute: jest.fn().mockImplementation((selector: string) => {
+        const selectorFn = {
+          [EMangaSelector.href]: manga.url,
+        };
+        return selectorFn[selector];
+      }),
+    }));
+
+    const getListMangasHttp = jest
+      .spyOn(httpService, 'get')
+      .mockResolvedValueOnce(mangasResponse);
+
+    const getListMangasHtml = jest
+      .spyOn(htmlParserService, 'parseHtml')
+      .mockImplementationOnce(async (body) => {
+        expect(body).toEqual(listMangas);
+        return {
+          querySelectorAll: jest.fn().mockReturnValueOnce(mangasElementsMock),
+        } as any;
+      });
+
+    const result = await service.searchManga(searchManga);
+    expect(getListMangasHttp).toBeCalled();
+    expect(getListMangasHtml).toBeCalled();
+    expect(result).toEqual(mangas);
   });
 });
