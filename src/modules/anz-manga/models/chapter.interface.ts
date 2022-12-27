@@ -1,8 +1,8 @@
-import { IChapterImage } from './chapter-image.interface';
+import { IOutboundImage } from '../../../interfaces';
 
 export interface IChapter {
   id: number;
   name: string;
   url: string;
-  images: IChapterImage[];
+  images: IOutboundImage[];
 }

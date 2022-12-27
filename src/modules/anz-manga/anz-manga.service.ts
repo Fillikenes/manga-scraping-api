@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import {
+  IOutboundChapter,
+  IOutboundImage,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { HttpService } from '../../services/http/http.service';
 import { BASE_MANGA_PAGE_URL, BASE_SEARCH_URL } from './constants';
 import {
-  EChapterAttribute,
   EChapterImageAttribute,
   EChapterImageSeparator,
   EChapterImageSeparatorDescription,
@@ -13,7 +17,6 @@ import {
 } from './enums';
 import {
   IChapter,
-  IChapterImage,
   ISuggestionItemResponse,
   ISuggestionResponse,
 } from './models';
@@ -25,7 +28,7 @@ export class AnzMangaService {
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string) {
+  public async search(value: string): Promise<IOutboundSearchResponse[]> {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
       url: BASE_SEARCH_URL,
       query: { query: value },
@@ -39,11 +42,12 @@ export class AnzMangaService {
     });
   }
 
-  public async getPage(url: string): Promise<IChapter[]> {
+  public async getPage(url: string): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
     const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {
-        ...chapter,
+        id: chapter.id,
+        name: chapter.name,
         images: await this._getChapterImages(chapter.url),
       };
     });
@@ -51,7 +55,7 @@ export class AnzMangaService {
     return Promise.all(chaptersImagesPromises);
   }
 
-  private async _getChapters(url: string): Promise<IChapter[]> {
+  private async _getChapters(url: string): Promise<IOutboundChapter[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
@@ -60,19 +64,17 @@ export class AnzMangaService {
         const title = urlSection.textContent;
         const titleSplit = title.split(EChapterSeparator.Name);
         const id = Number(titleSplit[titleSplit.length - 1]);
-        const chapterUrl = urlSection.getAttribute(EChapterAttribute.Href);
         const name = element.querySelector(EChapterSelector.Name).textContent;
         return {
           id,
           name: name || title,
-          url: chapterUrl,
           images: [],
         };
       },
     );
   }
 
-  private async _getChapterImages(url: string): Promise<IChapterImage[]> {
+  private async _getChapterImages(url: string): Promise<IOutboundImage[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChapterSelector.Images)].map(
