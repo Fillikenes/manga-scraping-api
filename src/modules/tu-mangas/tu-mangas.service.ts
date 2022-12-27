@@ -17,7 +17,6 @@ export class TuMangasService {
   ) {}
 
   async searchManga(name: string) {
-    console.log('NAME MANGA', name);
     const url = `${BASE_SEARCH_URL}${name}`;
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
