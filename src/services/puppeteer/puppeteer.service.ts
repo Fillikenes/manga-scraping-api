@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer-extra';
 import Adblocker from 'puppeteer-extra-plugin-adblocker';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import randomUseragent from 'random-useragent';
+import { UA } from './constants';
 import { EDomContentLoaded, ENetworkProtocols } from './enums';
 import { IGoToPageParams } from './models';
 
@@ -13,8 +14,12 @@ export class PuppeteerService {
     puppeteer.use(StealthPlugin());
     puppeteer.use(Adblocker({ blockTrackers: true }));
     return puppeteer.launch({
-      headless: false,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--window-size=1920,1080',
+      ],
     });
   }
 
@@ -28,6 +33,8 @@ export class PuppeteerService {
     if (setRandomUA) {
       const userAgent = randomUseragent.getRandom();
       await page.setUserAgent(userAgent);
+    } else {
+      await page.setUserAgent(UA);
     }
 
     await page.goto(url, { waitUntil: EDomContentLoaded.Domcontentloaded });

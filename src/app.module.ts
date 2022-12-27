@@ -9,8 +9,10 @@ import { HtmlParserService } from './services/html-parser/html-parser.service';
 import { LectorTmoModule } from './modules/lector-tmo/lector-tmo.module';
 import { AnzMangaModule } from './modules/anz-manga/anz-manga.module';
 import { InMangaModule } from './modules/in-manga/in-manga.module';
+import { TmoLectorNetModule } from './modules/tmo-lector-net/tmo-lector-net.module';
+import { MangaTigreModule } from './modules/manga-tigre/manga-tigre.module';
 import { TuMangasModule } from './modules/tu-mangas/tu-mangas.module';
-
+import { LectorMangaModule } from './modules/lector-manga/lector-manga.module';
 @Module({
   imports: [
     ConfigModule,
@@ -18,7 +20,10 @@ import { TuMangasModule } from './modules/tu-mangas/tu-mangas.module';
     LectorTmoModule,
     AnzMangaModule,
     InMangaModule,
+    TmoLectorNetModule,
+    MangaTigreModule,
     TuMangasModule,
+    LectorMangaModule,
   ],
   controllers: [AppController],
   providers: [AppService, HttpService, HtmlParserService],
