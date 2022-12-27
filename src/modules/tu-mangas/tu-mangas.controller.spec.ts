@@ -13,6 +13,7 @@ describe('TumangasController', () => {
           provide: TuMangasService,
           useValue: {
             getMangaInfo: jest.fn(),
+            searchManga: jest.fn(),
           },
         },
       ],
@@ -47,6 +48,24 @@ describe('TumangasController', () => {
       .mockResolvedValue(expectResponse);
 
     const result = await controller.getListCharacters(param);
+    expect(result).toBeDefined();
+    expect(result).toEqual(expectResponse);
+    expect(getMangaInfoSpy).toHaveBeenCalled();
+  });
+
+  it('should return an array with mangas searched', async () => {
+    const expectResponse = [
+      {
+        url: '...',
+        name: 'solo',
+      },
+    ];
+    const param = 'solo';
+    const getMangaInfoSpy = jest
+      .spyOn(tuMangasService, 'searchManga')
+      .mockResolvedValue(expectResponse);
+
+    const result = await controller.searchManga(param);
     expect(result).toBeDefined();
     expect(result).toEqual(expectResponse);
     expect(getMangaInfoSpy).toHaveBeenCalled();
