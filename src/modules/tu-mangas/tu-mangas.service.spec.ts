@@ -64,9 +64,14 @@ describe('TumangasService', () => {
         };
         return selectorFn[selector];
       }),
-      innerHTML: {
-        split: jest.fn().mockReturnValue([, chapter.chapterNumber]),
-      },
+      children: [
+        {
+          innerHTML: chapter.name,
+        },
+      ],
+      // innerHTML: {
+      //   split: jest.fn().mockReturnValue([, chapter.chapterNumber]),
+      // },
     }));
     const imagesElementsMock = imgs.map((img, aux) => {
       return {
