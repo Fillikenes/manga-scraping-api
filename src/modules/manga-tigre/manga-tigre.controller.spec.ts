@@ -21,7 +21,6 @@ describe('MangaTigreController', () => {
     }).compile();
 
     controller = module.get<MangaTigreController>(MangaTigreController);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     service = module.get<MangaTigreService>(MangaTigreService);
   });
 

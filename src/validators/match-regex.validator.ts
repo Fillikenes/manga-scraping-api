@@ -4,8 +4,7 @@ export function MatchRegex(
   regex: RegExp,
   validationOptions?: ValidationOptions,
 ) {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  return (object: Object, propertyName: string) => {
+  return (object: unknown, propertyName: string) => {
     registerDecorator({
       propertyName,
       target: object.constructor,
