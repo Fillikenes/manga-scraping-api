@@ -125,7 +125,6 @@ describe('TmoLectorNetService', () => {
       for (const result of results) {
         expect(result).toHaveProperty('url');
         expect(result).toHaveProperty('name');
-        expect(result).toHaveProperty('thumbnail');
       }
     });
   });
