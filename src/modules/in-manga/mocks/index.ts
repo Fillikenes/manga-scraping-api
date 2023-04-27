@@ -1,10 +1,5 @@
-import { IOutboundChapter, IOutboundImage } from '../../../interfaces';
-import {
-  IChapterImageInformation,
-  IChapterInformation,
-  IMangaInformation,
-  ISearchResponse,
-} from '../models';
+import { IOutboundChapter, IOutboundSearchResponse } from '../../../interfaces';
+import { IChapterInformation, ISearchResponse } from '../models';
 
 export const imagesInfo: any[] = [
   {
@@ -66,3 +61,10 @@ export const searchResponse: ISearchResponse = {
     },
   ],
 };
+
+export const OSearchResponse: IOutboundSearchResponse[] = [
+  {
+    name: searchResponse.result[0].Name,
+    url: `https://inmanga.com/ver/manga/One-Piece/${searchResponse.result[0].Identification}`,
+  },
+];
