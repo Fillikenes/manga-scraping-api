@@ -3,7 +3,8 @@ export enum EMangaSearched {
 }
 
 export enum EChapterImagesSelector {
-  Options = '#PageList > option',
+  PageList = '#PageList',
+  Options = 'option',
 }
 export enum EChapterImageAttribute {
   Value = 'value',

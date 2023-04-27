@@ -96,7 +96,15 @@ describe('InMangaService', () => {
             }),
           }));
           return {
-            querySelectorAll: jest.fn().mockReturnValue(imagesElementsMock),
+            querySelectorAll: jest.fn().mockImplementation(() => {
+              return [
+                {
+                  querySelectorAll: jest
+                    .fn()
+                    .mockReturnValue(imagesElementsMock),
+                },
+              ];
+            }),
           } as any;
         });
 
