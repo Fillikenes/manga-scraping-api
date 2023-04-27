@@ -130,16 +130,18 @@ export class InMangaService {
       url: BASE_SEARCH_PAGES_URL,
     });
     const document = await this.htmlParser.parseHtml(body);
-    return [...document.querySelectorAll(EChapterImagesSelector.Options)].map(
-      (element: Element) => {
-        const altId = element.getAttribute(EChapterImageAttribute.Value);
-        const page = parseInt(element.textContent, 10);
-        const baseUrl = `${BASE_IMAGES_URL}/manga/${mangaName}/chapter/${chapterNumber}/page/${page}/${altId}`;
-        return {
-          correlative: page,
-          url: baseUrl,
-        };
-      },
-    );
+    const pageList = document.querySelectorAll(EChapterImagesSelector.PageList);
+
+    return [
+      ...pageList[0].querySelectorAll(EChapterImagesSelector.Options),
+    ].map((element: Element) => {
+      const altId = element.getAttribute(EChapterImageAttribute.Value);
+      const page = parseInt(element.textContent, 10);
+      const baseUrl = `${BASE_IMAGES_URL}/manga/${mangaName}/chapter/${chapterNumber}/page/${page}/${altId}`;
+      return {
+        correlative: page,
+        url: baseUrl,
+      };
+    });
   }
 }
