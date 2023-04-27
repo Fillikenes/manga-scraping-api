@@ -47,12 +47,12 @@ export class TuMangasService {
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EChapterList.items)].map(
       (el: Element) => {
-        const chapter = el.children[0].innerHTML;
-        const chapterNumber = chapter.split(' ')[1];
+        const chapterName = el.children[0].innerHTML;
+        const chapterNumber = chapterName.split(' ')[1];
         return {
           url: el.getAttribute(EChapterList.href),
           id: Number(chapterNumber),
-          name: chapter,
+          name: chapterName,
         };
       },
     );
