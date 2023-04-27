@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import {
@@ -16,25 +16,47 @@ import {
   EMangaSearched,
 } from './enums';
 import {
-  IChapterImageInformation,
   IChapterInformation,
   IMangaInformation,
   ISearchResponse,
 } from './models';
-import { IOutboundChapter, IOutboundImage } from '../../interfaces';
+import {
+  IOutboundChapter,
+  IOutboundImage,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 
 @Injectable()
 export class InMangaService {
+  private logger = new Logger();
+
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async searchManga(value: string): Promise<ISearchResponse> {
+  public async searchManga(value: string): Promise<IOutboundSearchResponse[]> {
     const query = { name: value };
     const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
-    return JSON.parse(inMangaAPIResponse.data);
+    const data: ISearchResponse = JSON.parse(inMangaAPIResponse.data);
+    this.logger.log(data.message);
+    if (data.success && data.result.length) {
+      return data.result.map((searchResult) => {
+        const mangaName = String(searchResult.Name).replace(
+          SPACE_PATTERN,
+          DASH_PATTERN,
+        );
+        const mangaUrl = `${BASE_MANGA_PAGE_URL}/${mangaName}/${searchResult.Identification}`;
+
+        return {
+          name: searchResult.Name,
+          url: mangaUrl,
+        };
+      });
+    }
+
+    return [];
   }
 
   public async getManga(value: string): Promise<IOutboundChapter[]> {
@@ -65,14 +87,13 @@ export class InMangaService {
   ): Promise<IMangaInformation> {
     const jsonResponse = await this.searchManga(manga);
 
-    const { Name, Identification } = jsonResponse.result[EMangaSearched.First];
-    const mangaName = String(Name).replace(SPACE_PATTERN, DASH_PATTERN);
-    const mangaUrl = `${BASE_MANGA_PAGE_URL}/${mangaName}/${Identification}`;
+    const { name, url } = jsonResponse[EMangaSearched.First];
+    const mangaName = String(name).replace(SPACE_PATTERN, DASH_PATTERN);
 
     return {
-      name: Name,
-      url: mangaUrl,
-      altId: Identification,
+      name: name,
+      url: url,
+      altId: url.split('/').pop(),
       helperName: mangaName,
     };
   }

@@ -18,9 +18,10 @@ export class InMangaController implements IBaseController {
     return this.inMangaService.getManga(query.manga);
   }
 
-  // TODO: FIX TO STANDARIZE RESPONDE TO OUTBOUND INTERFACE
   @Get('search/:manga')
-  public async search(@Param() params: InMangaParamDto): Promise<any> {
+  public async search(
+    @Param() params: InMangaParamDto,
+  ): Promise<IOutboundSearchResponse[]> {
     return this.inMangaService.searchManga(params.manga);
   }
 }
