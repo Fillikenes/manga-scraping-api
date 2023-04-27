@@ -63,6 +63,23 @@ describe('InMangaService', () => {
         isJson: true,
       });
     });
+
+    it('should get empty array of mangas', async () => {
+      const params = 'One Piece';
+      searchResponse.result = [];
+      const response = { data: JSON.stringify(searchResponse) };
+      const getSpy = jest.spyOn(httpService, 'get').mockResolvedValue(response);
+
+      const result = await service.searchManga(params);
+
+      expect(result).toBeDefined();
+      expect(result).toEqual([]);
+      expect(getSpy).toHaveBeenCalledWith({
+        url: BASE_SEARCH_MANGA_URL,
+        query: { name: params },
+        isJson: true,
+      });
+    });
   });
 
   describe('#getManga', () => {
