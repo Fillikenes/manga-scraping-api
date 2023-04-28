@@ -1,6 +1,6 @@
 export const mockParam = {
-  manga: 'one-punch-man',
-  search: 'one piece',
+  url: 'one-punch-man',
+  value: 'one piece',
 };
 
 export const mockUrlManga = 'https://lectormanga.online/manga/one-punch-man/';

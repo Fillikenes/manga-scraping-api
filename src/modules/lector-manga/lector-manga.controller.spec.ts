@@ -35,7 +35,7 @@ describe('LectorMangaController', () => {
     const getInfoMangaSpy = jest
       .spyOn(service, 'getInfoManga')
       .mockResolvedValue(expectRequest);
-    const result = await controller.getManga(mockParam.manga);
+    const result = await controller.getManga(mockParam);
     expect(result).toBeDefined();
     expect(getInfoMangaSpy).toHaveBeenCalled();
   });
@@ -44,7 +44,7 @@ describe('LectorMangaController', () => {
     const searchMangaSpy = jest
       .spyOn(service, 'searchManga')
       .mockResolvedValue(mangas);
-    const result = await controller.searchManga(mockParam.manga);
+    const result = await controller.searchManga(mockParam);
     expect(result).toBeDefined();
     expect(searchMangaSpy).toHaveBeenCalled();
   });

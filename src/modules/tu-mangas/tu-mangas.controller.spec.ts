@@ -44,7 +44,7 @@ describe('TumangasController', () => {
       },
     ];
     const param: TuMangasGetListDto = {
-      name: 'www.manga.com/name=mange1',
+      url: 'www.manga.com/name=mange1',
     };
     const getMangaInfoSpy = jest
       .spyOn(tuMangasService, 'getMangaInfo')
@@ -64,7 +64,7 @@ describe('TumangasController', () => {
       },
     ];
     const param: TuMangasSearchDto = {
-      nameManga: 'solo',
+      value: 'solo',
     };
     const getMangaInfoSpy = jest
       .spyOn(tuMangasService, 'searchManga')

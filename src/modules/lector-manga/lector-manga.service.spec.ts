@@ -103,7 +103,7 @@ describe('LectorMangaService', () => {
         } as any;
       });
 
-    const result = await service.getInfoManga(mockParam.manga);
+    const result = await service.getInfoManga(mockParam.url);
     expect(getChapters).toBeCalled();
     expect(getChaptersHtml).toBeCalled();
     expect(getImgsChapter).toBeCalled();
@@ -138,7 +138,7 @@ describe('LectorMangaService', () => {
         } as any;
       });
 
-    const result = await service.searchManga(mockParam.manga);
+    const result = await service.searchManga(mockParam.url);
     console.log(result);
     expect(searchManga).toBeCalled();
     expect(getMangaHtml).toBeCalled();

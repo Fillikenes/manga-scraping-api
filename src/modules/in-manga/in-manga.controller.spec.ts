@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InMangaController } from './in-manga.controller';
 import { InMangaService } from './in-manga.service';
-import { InMangaSearchDto } from './dtos';
+import { InMangaGetDto, InMangaSearchDto } from './dtos';
 import { OSearchResponse, mangaResponse } from './mocks';
 
 describe('InMangaController', () => {
@@ -34,8 +34,8 @@ describe('InMangaController', () => {
 
   describe('#get', () => {
     it('should get the information of a manga based in the manga name', async () => {
-      const params: InMangaSearchDto = {
-        manga: 'One Piece',
+      const params: InMangaGetDto = {
+        url: 'One Piece',
       };
       const getMangaSpy = jest
         .spyOn(service, 'getManga')
@@ -45,14 +45,14 @@ describe('InMangaController', () => {
 
       expect(result).toBeDefined();
       expect(result).toEqual(mangaResponse);
-      expect(getMangaSpy).toHaveBeenCalledWith(params.manga);
+      expect(getMangaSpy).toHaveBeenCalledWith(params.url);
     });
   });
 
   describe('#search', () => {
     it('should get the information of a manga based in the manga name', async () => {
       const params: InMangaSearchDto = {
-        manga: 'One Piece',
+        value: 'One Piece',
       };
       const searchMangaSpy = jest
         .spyOn(service, 'searchManga')
@@ -62,7 +62,7 @@ describe('InMangaController', () => {
 
       expect(result).toBeDefined();
       expect(result).toEqual(OSearchResponse);
-      expect(searchMangaSpy).toHaveBeenCalledWith(params.manga);
+      expect(searchMangaSpy).toHaveBeenCalledWith(params.value);
     });
   });
 });
