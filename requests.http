@@ -1,51 +1,60 @@
-GET http://localhost:3001 HTTP/1.1
+@hostname = http://localhost
+@port = 3001
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
 ###
-GET http://localhost:3001/health HTTP/1.1
+# @name BaseRoute
+GET {{host}} HTTP/1.1
 ###
-GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57813/the-player-that-cant-level-up HTTP/1.1
+# @name HealthChecker
+GET {{host}}/health HTTP/1.1
+
 ###
-### TuMangas
+# @name TuMangas
 ###
-GET http://localhost:3001/tu-mangas?name=one-punch-man
+
+# 
+GET {{host}}/tu-mangas?url=https://tumangas.net/manga/dragon-ball-super
 ###
-GET http://localhost:3001/tu-mangas/search/solo
+GET {{host}}/tu-mangas/search/dragon ball
 ###
-GET http://localhost:3001/tu-mangas?name=el-salvaje-oeste-marcial
+GET {{host}}/tu-mangas?name=el-salvaje-oeste-marcial
 ###
 ### ANZ MANGA
 ###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
+GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
+GET {{host}}/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
+GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
+GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
 ###
-GET http://localhost:3001/anz-manga/search/one HTTP/1.1
+GET {{host}}/anz-manga/search/one HTTP/1.1
 ### 
 ### IN MANGA
 ###
-GET http://localhost:3001/in-manga/One Punch Man
+GET {{host}}/in-manga/One Punch Man
 ###
-GET http://localhost:3001/in-manga/search/One Punch Man
+GET {{host}}/in-manga/search/One Punch Man
 ###
 ### TMO LECTOR NET
 ###
-GET http://localhost:3001/tmo-lector-net?url=https://tmolector.net/manga/one-punch-man
+GET {{host}}/tmo-lector-net?url=https://tmolector.net/manga/one-punch-man
 ###
-GET http://localhost:3001/tmo-lector-net/search/ab
+GET {{host}}/tmo-lector-net/search/ab
 ###
-GET http://localhost:3001/tmo-lector-net/search/ab?getAll=true
+GET {{host}}/tmo-lector-net/search/ab?getAll=true
 ### 
 ### Lector Manga
 ###
-GET http://localhost:3001/lector-manga/one-punch-man HTTP/1.1
+GET {{host}}/lector-manga/one-punch-man HTTP/1.1
 ###
-GET http://localhost:3001/lector-manga/search/one-punch-man HTTP/1.1
+GET {{host}}/lector-manga/search/one-punch-man HTTP/1.1
 ###
 ### MANGA TIGRE
 ###
-GET http://localhost:3001/manga-tigre/One Punch Man
+GET {{host}}/manga-tigre/One Punch Man
 ###
-GET http://localhost:3001/manga-tigre/search/One Punch Man
+GET {{host}}/manga-tigre/search/One Punch Man

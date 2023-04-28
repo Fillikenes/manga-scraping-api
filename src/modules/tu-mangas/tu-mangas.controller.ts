@@ -16,7 +16,7 @@ export class TuMangasController implements IBaseController {
   async get(@Query() query: TuMangasGetListDto): Promise<IOutboundChapter[]> {
     return this.tumangasService.getMangaInfo(query.url);
   }
-  @Get('/search/:nameManga')
+  @Get('/search/:value')
   async search(
     @Param() params: TuMangasSearchDto,
   ): Promise<IOutboundSearchResponse[]> {
