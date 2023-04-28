@@ -57,7 +57,7 @@ describe('TmoLectorNetController', () => {
         .spyOn(service, 'getPage')
         .mockResolvedValue(expectedResponse);
 
-      const result = await controller.getManga(params);
+      const result = await controller.get(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);
@@ -88,10 +88,7 @@ describe('TmoLectorNetController', () => {
         .spyOn(service, 'search')
         .mockResolvedValue(expectedResponse);
 
-      const result = await controller.searchManga(
-        paramsBody,
-        paramsQuery.getAll,
-      );
+      const result = await controller.search(paramsBody, paramsQuery.getAll);
 
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);

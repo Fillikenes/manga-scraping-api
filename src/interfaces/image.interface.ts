@@ -1,4 +1,4 @@
-export interface IChapterImage {
+export interface IOutboundImage {
   correlative: number;
   url: string;
 }

@@ -6,23 +6,30 @@ import {
   ParseBoolPipe,
   Query,
 } from '@nestjs/common';
-import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dto';
+import {
+  IBaseController,
+  IOutboundChapter,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 import { TmoLectorNetService } from './tmo-lector-net.service';
+import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dto';
 
 @Controller('tmo-lector-net')
-export class TmoLectorNetController {
+export class TmoLectorNetController implements IBaseController {
   constructor(private readonly tmoLectorNetService: TmoLectorNetService) {}
 
   @Get('/')
-  public async getManga(@Query() params: TmoLectorNetParamDto) {
+  public async get(
+    @Query() params: TmoLectorNetParamDto,
+  ): Promise<IOutboundChapter[]> {
     return this.tmoLectorNetService.getPage(params.url);
   }
 
   @Get('search/:value')
-  public async searchManga(
+  public async search(
     @Param() params: TmoLectorNetSearchParamDto,
     @Query('getAll', new DefaultValuePipe(false), ParseBoolPipe) getAll = false,
-  ): Promise<any> {
+  ): Promise<IOutboundSearchResponse[]> {
     return this.tmoLectorNetService.search(params.value, getAll);
   }
 }

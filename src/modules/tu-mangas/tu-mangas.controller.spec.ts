@@ -33,8 +33,8 @@ describe('TumangasController', () => {
   it('should return an array with the chapters of a specific manga', async () => {
     const expectResponse = [
       {
-        url: '...',
-        chapterNumber: 6,
+        name: '...',
+        id: 6,
         images: [
           {
             url: 'img1...',
@@ -50,7 +50,7 @@ describe('TumangasController', () => {
       .spyOn(tuMangasService, 'getMangaInfo')
       .mockResolvedValue(expectResponse);
 
-    const result = await controller.getListCharacters(param);
+    const result = await controller.get(param);
     expect(result).toBeDefined();
     expect(result).toEqual(expectResponse);
     expect(getMangaInfoSpy).toHaveBeenCalled();
@@ -70,7 +70,7 @@ describe('TumangasController', () => {
       .spyOn(tuMangasService, 'searchManga')
       .mockResolvedValue(expectResponse);
 
-    const result = await controller.searchManga(param);
+    const result = await controller.search(param);
     expect(result).toBeDefined();
     expect(result).toEqual(expectResponse);
     expect(getMangaInfoSpy).toHaveBeenCalled();

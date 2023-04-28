@@ -98,7 +98,6 @@ describe('AnzMangaService', () => {
       const expectedResponse = [...Array(10).keys()].map((value) => ({
         id: value,
         name: `Capitulo ${value}`,
-        url: `${params}/${value}`,
         images: [
           { url: '-', correlative: 1 },
           { url: '-', correlative: 2 },
@@ -113,7 +112,7 @@ describe('AnzMangaService', () => {
           const selectorFn = {
             [EChapterSelector.Url]: {
               textContent: chapter.name,
-              getAttribute: jest.fn().mockReturnValue(chapter.url),
+              getAttribute: jest.fn().mockReturnValue(''),
             },
             [EChapterSelector.Name]: {
               textContent: index % 2 ? '' : chapter.name,

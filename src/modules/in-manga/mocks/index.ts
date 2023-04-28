@@ -1,18 +1,14 @@
-import {
-  IChapterImageInformation,
-  IChapterInformation,
-  IMangaInformation,
-  ISearchResponse,
-} from '../models';
+import { IOutboundChapter, IOutboundSearchResponse } from '../../../interfaces';
+import { IChapterInformation, ISearchResponse } from '../models';
 
-export const imagesInfo: IChapterImageInformation[] = [
+export const imagesInfo: any[] = [
   {
-    page: 1,
+    correlative: 1,
     altId: 'img-xyz',
     url: 'https://pack-yak.intomanga.com/images/manga/One-Piece/chapter/1/page/1/img-xyz',
   },
   {
-    page: 2,
+    correlative: 2,
     altId: 'img-asd',
     url: 'https://pack-yak.intomanga.com/images/manga/One-Piece/chapter/1/page/2/img-asd',
   },
@@ -40,22 +36,18 @@ export const chaptersInfo: IChapterInformation[] = [
   },
 ];
 
-export const mangaResponse: IMangaInformation = {
-  name: 'One Piece',
-  url: 'https://inmanga.com/ver/manga/One-Piece/abc-xyz',
-  altId: 'abc-xyz',
-  helperName: 'One-Piece',
-  chapters: [
-    {
-      ...chaptersInfo[0],
-      images: imagesInfo,
-    },
-    {
-      ...chaptersInfo[1],
-      images: imagesInfo,
-    },
-  ],
-};
+export const mangaResponse: IOutboundChapter[] = [
+  {
+    id: chaptersInfo[0].id,
+    name: `Chapter ${chaptersInfo[0].id}`,
+    images: imagesInfo,
+  },
+  {
+    id: chaptersInfo[1].id,
+    name: `Chapter ${chaptersInfo[1].id}`,
+    images: imagesInfo,
+  },
+];
 
 export const searchResponse: ISearchResponse = {
   message: 'ok',
@@ -69,3 +61,10 @@ export const searchResponse: ISearchResponse = {
     },
   ],
 };
+
+export const OSearchResponse: IOutboundSearchResponse[] = [
+  {
+    name: searchResponse.result[0].Name,
+    url: `https://inmanga.com/ver/manga/One-Piece/${searchResponse.result[0].Identification}`,
+  },
+];

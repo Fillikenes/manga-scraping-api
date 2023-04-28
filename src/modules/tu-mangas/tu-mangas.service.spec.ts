@@ -3,7 +3,6 @@ import { TuMangasService } from './tu-mangas.service';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { EChapterList, EChartepListImgs, EMangaSelector } from './enums';
-// import { EMangaSelector } from './enums/index';
 import {
   listChapters,
   chapters,
@@ -64,9 +63,11 @@ describe('TumangasService', () => {
         };
         return selectorFn[selector];
       }),
-      innerHTML: {
-        split: jest.fn().mockReturnValue([, chapter.chapterNumber]),
-      },
+      children: [
+        {
+          innerHTML: chapter.name,
+        },
+      ],
     }));
     const imagesElementsMock = imgs.map((img, aux) => {
       return {

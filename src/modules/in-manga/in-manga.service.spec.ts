@@ -3,6 +3,7 @@ import { InMangaService } from './in-manga.service';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import {
+  OSearchResponse,
   chaptersInfo,
   imageHtmlInfo,
   imagesInfo,
@@ -55,7 +56,24 @@ describe('InMangaService', () => {
       const result = await service.searchManga(params);
 
       expect(result).toBeDefined();
-      expect(result).toEqual(searchResponse);
+      expect(result).toEqual(OSearchResponse);
+      expect(getSpy).toHaveBeenCalledWith({
+        url: BASE_SEARCH_MANGA_URL,
+        query: { name: params },
+        isJson: true,
+      });
+    });
+
+    it('should get empty array of mangas', async () => {
+      const params = 'One Piece';
+      searchResponse.result = [];
+      const response = { data: JSON.stringify(searchResponse) };
+      const getSpy = jest.spyOn(httpService, 'get').mockResolvedValue(response);
+
+      const result = await service.searchManga(params);
+
+      expect(result).toBeDefined();
+      expect(result).toEqual([]);
       expect(getSpy).toHaveBeenCalledWith({
         url: BASE_SEARCH_MANGA_URL,
         query: { name: params },
@@ -69,7 +87,7 @@ describe('InMangaService', () => {
       const params = 'One Piece';
       const searchSpy = jest
         .spyOn(service, 'searchManga')
-        .mockResolvedValue(searchResponse);
+        .mockResolvedValue(OSearchResponse);
 
       const chapterResponse = {
         data: JSON.stringify({ result: chaptersInfo }),
@@ -95,7 +113,15 @@ describe('InMangaService', () => {
             }),
           }));
           return {
-            querySelectorAll: jest.fn().mockReturnValue(imagesElementsMock),
+            querySelectorAll: jest.fn().mockImplementation(() => {
+              return [
+                {
+                  querySelectorAll: jest
+                    .fn()
+                    .mockReturnValue(imagesElementsMock),
+                },
+              ];
+            }),
           } as any;
         });
 

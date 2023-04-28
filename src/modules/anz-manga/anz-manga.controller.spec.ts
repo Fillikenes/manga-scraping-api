@@ -31,7 +31,7 @@ describe('AnzMangaController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('#getPage - should get the information of a manga based in the url', async () => {
+  it('#get - should get the information of a manga based in the url', async () => {
     const params: AnzMangaQueryDto = {
       url: 'www.page.com',
     };
@@ -47,14 +47,14 @@ describe('AnzMangaController', () => {
       .spyOn(service, 'getPage')
       .mockResolvedValue(expectedResponse);
 
-    const result = await controller.getManga(params);
+    const result = await controller.get(params);
 
     expect(result).toBeDefined();
     expect(result).toEqual(expectedResponse);
     expect(getPageSpy).toHaveBeenCalledWith(params.url);
   });
 
-  it('#searchManga - should get suggestions of mangas based in the search value given as argument', async () => {
+  it('#search - should get suggestions of mangas based in the search value given as argument', async () => {
     const params: AnzMangaSearchDto = {
       value: 'One piece',
     };
@@ -68,7 +68,7 @@ describe('AnzMangaController', () => {
       .spyOn(service, 'search')
       .mockResolvedValue(expectedResponse);
 
-    const result = await controller.searchManga(params);
+    const result = await controller.search(params);
 
     expect(result).toBeDefined();
     expect(result).toEqual(expectedResponse);

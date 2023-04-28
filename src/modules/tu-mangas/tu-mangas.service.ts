@@ -5,8 +5,9 @@ import { EChapterList, EChartepListImgs, EMangaSelector } from './enums';
 import { BASE_MANGA_URL, BASE_SEARCH_URL } from './constants';
 
 interface IChapter {
+  id: number;
+  name: string;
   url: string;
-  chapterNumber: number;
 }
 
 @Injectable()
@@ -30,9 +31,11 @@ export class TuMangasService {
   async getMangaInfo(name: string) {
     const listChapters = await this._getListChapters(name);
     const infoManga = listChapters.map(async (chapter: IChapter) => {
+      const { id, name, url } = chapter;
       return {
-        ...chapter,
-        images: await this._getListImgs(chapter.url),
+        id,
+        name,
+        images: await this._getListImgs(url),
       };
     });
     return Promise.all(infoManga);
@@ -44,11 +47,12 @@ export class TuMangasService {
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EChapterList.items)].map(
       (el: Element) => {
-        const chapter = el.innerHTML.split(EChapterList.charSplit)[1];
-        const chapterNumber = Number(chapter);
+        const chapterName = el.children[0].innerHTML;
+        const chapterNumber = chapterName.split(' ')[1];
         return {
           url: el.getAttribute(EChapterList.href),
-          chapterNumber,
+          id: Number(chapterNumber),
+          name: chapterName,
         };
       },
     );

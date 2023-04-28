@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { InMangaController } from './in-manga.controller';
 import { InMangaService } from './in-manga.service';
 import { InMangaParamDto } from './dto';
-import { mangaResponse, searchResponse } from './mocks';
+import { OSearchResponse, mangaResponse } from './mocks';
 
 describe('InMangaController', () => {
   let controller: InMangaController;
@@ -32,7 +32,7 @@ describe('InMangaController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('#getManga', () => {
+  describe('#get', () => {
     it('should get the information of a manga based in the manga name', async () => {
       const params: InMangaParamDto = {
         manga: 'One Piece',
@@ -41,7 +41,7 @@ describe('InMangaController', () => {
         .spyOn(service, 'getManga')
         .mockResolvedValue(mangaResponse);
 
-      const result = await controller.getManga(params);
+      const result = await controller.get(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(mangaResponse);
@@ -49,19 +49,19 @@ describe('InMangaController', () => {
     });
   });
 
-  describe('#getManga', () => {
+  describe('#search', () => {
     it('should get the information of a manga based in the manga name', async () => {
       const params: InMangaParamDto = {
         manga: 'One Piece',
       };
       const searchMangaSpy = jest
         .spyOn(service, 'searchManga')
-        .mockResolvedValue(searchResponse);
+        .mockResolvedValue(OSearchResponse);
 
-      const result = await controller.searchManga(params);
+      const result = await controller.search(params);
 
       expect(result).toBeDefined();
-      expect(result).toEqual(searchResponse);
+      expect(result).toEqual(OSearchResponse);
       expect(searchMangaSpy).toHaveBeenCalledWith(params.manga);
     });
   });

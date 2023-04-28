@@ -1,10 +1,10 @@
 export const listChapters = `
 <div class="tagcloud">
 <a href="https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-6.00">
-El salvaje oeste marcial Capítulo 6.00
+<span>El salvaje oeste marcial Capítulo 6.00</span>
 </a>
 <a href="https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-5.00">
-El salvaje oeste marcial Capítulo 5.00
+<span>El salvaje oeste marcial Capítulo 5.00</span>
 </a>
 </div>
 `;
@@ -23,11 +23,11 @@ export const listMangas = `
 export const chapters = [
   {
     url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-6.00',
-    chapterNumber: 6,
+    name: 'Capítulo 6.00',
   },
   {
     url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-5.00',
-    chapterNumber: 5,
+    name: 'Capítulo 5.00',
   },
 ];
 
@@ -59,7 +59,8 @@ export const imgs = [
 
 export const expectRequest = [
   {
-    chapterNumber: 6,
+    id: 6,
+    name: 'Capítulo 6.00',
     images: [
       {
         url: 'https://imagizer.imageshack.com/img923/9500/kxhubB.jpg',
@@ -70,10 +71,10 @@ export const expectRequest = [
         correlative: 2,
       },
     ],
-    url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-6.00',
   },
   {
-    chapterNumber: 5,
+    id: 5,
+    name: 'Capítulo 5.00',
     images: [
       {
         url: 'https://imagizer.imageshack.com/img923/9500/kxhubB.jpg',
@@ -84,6 +85,5 @@ export const expectRequest = [
         correlative: 2,
       },
     ],
-    url: 'https://tumangas.net/leer-manga/el-salvaje-oeste-marcial-5.00',
   },
 ];
