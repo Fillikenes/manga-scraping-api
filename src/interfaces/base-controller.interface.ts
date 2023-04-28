@@ -1,7 +1,11 @@
-import { IOutboundChapter } from './chapter.interface';
-import { IOutboundSearchResponse } from './search-response.interface';
+import {
+  IOutboundChapter,
+  IOutboundGetParams,
+  IOutboundSearchParams,
+  IOutboundSearchResponse,
+} from '.';
 
 export interface IBaseController {
-  search(params: any): Promise<IOutboundSearchResponse[]>;
-  get(params: any): Promise<IOutboundChapter[]>;
+  search(params: IOutboundSearchParams): Promise<IOutboundSearchResponse[]>;
+  get(params: IOutboundGetParams): Promise<IOutboundChapter[]>;
 }

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dto';
+import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dtos';
 import { TmoLectorNetController } from './tmo-lector-net.controller';
 import { TmoLectorNetService } from './tmo-lector-net.service';
 

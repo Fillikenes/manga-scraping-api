@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TuMangasGetListDto, TuMangasSearchDto } from './dto';
+import { TuMangasGetListDto, TuMangasSearchDto } from './dtos';
 import { TuMangasController } from './tu-mangas.controller';
 import { TuMangasService } from './tu-mangas.service';
 

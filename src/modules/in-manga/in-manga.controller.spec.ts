@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InMangaController } from './in-manga.controller';
 import { InMangaService } from './in-manga.service';
-import { InMangaParamDto } from './dto';
+import { InMangaSearchDto } from './dtos';
 import { OSearchResponse, mangaResponse } from './mocks';
 
 describe('InMangaController', () => {
@@ -34,7 +34,7 @@ describe('InMangaController', () => {
 
   describe('#get', () => {
     it('should get the information of a manga based in the manga name', async () => {
-      const params: InMangaParamDto = {
+      const params: InMangaSearchDto = {
         manga: 'One Piece',
       };
       const getMangaSpy = jest
@@ -51,7 +51,7 @@ describe('InMangaController', () => {
 
   describe('#search', () => {
     it('should get the information of a manga based in the manga name', async () => {
-      const params: InMangaParamDto = {
+      const params: InMangaSearchDto = {
         manga: 'One Piece',
       };
       const searchMangaSpy = jest

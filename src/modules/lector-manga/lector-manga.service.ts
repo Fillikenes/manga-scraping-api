@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { IChapter, IImage, IMangaInfo } from './models/';
-import { EChapterSelector, ESearchMangaSelector } from './enuns';
+import { EChapterSelector, ESearchMangaSelector } from './enums';
 import {
   EChapterAttribute,
   EImageSelector,
   EImageAttribute,
-} from './enuns/index';
+} from './enums/index';
 import { BASE_SEARCH_URL, BASE_URL } from './constants';
 @Injectable()
 export class LectorMangaService {

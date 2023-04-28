@@ -1,6 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { InMangaService } from './in-manga.service';
-import { InMangaParamDto } from './dto';
+import { InMangaGetDto, InMangaSearchDto } from './dtos';
 import {
   IBaseController,
   IOutboundChapter,
@@ -11,17 +11,17 @@ import {
 export class InMangaController implements IBaseController {
   constructor(private readonly inMangaService: InMangaService) {}
 
-  @Get('/:manga')
+  @Get('/')
   public async get(
-    @Param() query: InMangaParamDto,
+    @Query() params: InMangaGetDto,
   ): Promise<IOutboundChapter[]> {
-    return this.inMangaService.getManga(query.manga);
+    return this.inMangaService.getManga(params.url);
   }
 
-  @Get('search/:manga')
+  @Get('search/:value')
   public async search(
-    @Param() params: InMangaParamDto,
+    @Param() params: InMangaSearchDto,
   ): Promise<IOutboundSearchResponse[]> {
-    return this.inMangaService.searchManga(params.manga);
+    return this.inMangaService.searchManga(params.value);
   }
 }

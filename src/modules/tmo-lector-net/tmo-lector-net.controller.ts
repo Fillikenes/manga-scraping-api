@@ -12,7 +12,7 @@ import {
   IOutboundSearchResponse,
 } from '../../interfaces';
 import { TmoLectorNetService } from './tmo-lector-net.service';
-import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dto';
+import { TmoLectorNetParamDto, TmoLectorNetSearchParamDto } from './dtos';
 
 @Controller('tmo-lector-net')
 export class TmoLectorNetController implements IBaseController {

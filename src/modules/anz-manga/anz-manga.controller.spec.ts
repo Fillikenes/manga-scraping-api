@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AnzMangaController } from './anz-manga.controller';
 import { AnzMangaService } from './anz-manga.service';
-import { AnzMangaQueryDto, AnzMangaSearchDto } from './dto';
+import { AnzMangaQueryDto, AnzMangaSearchDto } from './dtos';
 
 describe('AnzMangaController', () => {
   let controller: AnzMangaController;

@@ -11,7 +11,7 @@ import {
   mangas,
   mockParam,
 } from './mocks/index';
-import { EChapterAttribute, EImageAttribute } from './enuns/index';
+import { EChapterAttribute, EImageAttribute } from './enums/index';
 
 describe('LectorMangaService', () => {
   let service: LectorMangaService;
