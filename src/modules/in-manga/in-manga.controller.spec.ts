@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InMangaController } from './in-manga.controller';
 import { InMangaService } from './in-manga.service';
-import { InMangaParamDto } from './dto';
+import { InMangaGetDto, InMangaSearchDto } from './dtos';
 import { OSearchResponse, mangaResponse } from './mocks';
 
 describe('InMangaController', () => {
@@ -15,8 +15,8 @@ describe('InMangaController', () => {
         {
           provide: InMangaService,
           useValue: {
-            getManga: jest.fn(),
-            searchManga: jest.fn(),
+            get: jest.fn(),
+            search: jest.fn(),
           },
         },
       ],
@@ -34,35 +34,35 @@ describe('InMangaController', () => {
 
   describe('#get', () => {
     it('should get the information of a manga based in the manga name', async () => {
-      const params: InMangaParamDto = {
-        manga: 'One Piece',
+      const params: InMangaGetDto = {
+        url: 'One Piece',
       };
       const getMangaSpy = jest
-        .spyOn(service, 'getManga')
+        .spyOn(service, 'get')
         .mockResolvedValue(mangaResponse);
 
       const result = await controller.get(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(mangaResponse);
-      expect(getMangaSpy).toHaveBeenCalledWith(params.manga);
+      expect(getMangaSpy).toHaveBeenCalledWith(params);
     });
   });
 
   describe('#search', () => {
     it('should get the information of a manga based in the manga name', async () => {
-      const params: InMangaParamDto = {
-        manga: 'One Piece',
+      const params: InMangaSearchDto = {
+        value: 'One Piece',
       };
       const searchMangaSpy = jest
-        .spyOn(service, 'searchManga')
+        .spyOn(service, 'search')
         .mockResolvedValue(OSearchResponse);
 
       const result = await controller.search(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(OSearchResponse);
-      expect(searchMangaSpy).toHaveBeenCalledWith(params.manga);
+      expect(searchMangaSpy).toHaveBeenCalledWith(params);
     });
   });
 });

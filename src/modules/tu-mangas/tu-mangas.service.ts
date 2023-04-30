@@ -2,7 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { EChapterList, EChartepListImgs, EMangaSelector } from './enums';
-import { BASE_MANGA_URL, BASE_SEARCH_URL } from './constants';
+import { BASE_SEARCH_URL } from './constants';
+import {
+  IMangaScrapingService,
+  IOutboundChapter,
+  IOutboundGetParams,
+  IOutboundSearchParams,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 
 interface IChapter {
   id: number;
@@ -11,14 +18,16 @@ interface IChapter {
 }
 
 @Injectable()
-export class TuMangasService {
+export class TuMangasService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParseService: HtmlParserService,
   ) {}
 
-  async searchManga(name: string) {
-    const url = `${BASE_SEARCH_URL}${name}`;
+  async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
+    const url = `${BASE_SEARCH_URL}${value}`;
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EMangaSelector.mangas)].map((el) => {
@@ -28,8 +37,8 @@ export class TuMangasService {
     });
   }
 
-  async getMangaInfo(name: string) {
-    const listChapters = await this._getListChapters(name);
+  async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
+    const listChapters = await this._getListChapters(url);
     const infoManga = listChapters.map(async (chapter: IChapter) => {
       const { id, name, url } = chapter;
       return {
@@ -41,8 +50,7 @@ export class TuMangasService {
     return Promise.all(infoManga);
   }
 
-  private async _getListChapters(name: string) {
-    const url = `${BASE_MANGA_URL}${name}`;
+  private async _getListChapters(url: string) {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EChapterList.items)].map(

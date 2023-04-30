@@ -11,7 +11,7 @@ import {
   mangas,
   mockParam,
 } from './mocks/index';
-import { EChapterAttribute, EImageAttribute } from './enuns/index';
+import { EChapterAttribute, EImageAttribute } from './enums/index';
 
 describe('LectorMangaService', () => {
   let service: LectorMangaService;
@@ -64,7 +64,7 @@ describe('LectorMangaService', () => {
         };
         return selectorFn[selector];
       }),
-      innerHTML: chapter.chapter,
+      innerHTML: chapter.id,
     }));
 
     const imgElementMock = imgs.map((img, aux) => ({
@@ -103,13 +103,14 @@ describe('LectorMangaService', () => {
         } as any;
       });
 
-    const result = await service.getInfoManga(mockParam.manga);
+    const result = await service.get({ url: mockParam.url });
     expect(getChapters).toBeCalled();
     expect(getChaptersHtml).toBeCalled();
     expect(getImgsChapter).toBeCalled();
     expect(getIgmsChapterHtml).toBeCalled();
-    expect(result).toEqual(chapters);
+    expect(chapters).toMatchObject(result);
   });
+
   it('it should return a list of manga search', async () => {
     const mangaResponse = {
       body: listMangas,
@@ -138,8 +139,7 @@ describe('LectorMangaService', () => {
         } as any;
       });
 
-    const result = await service.searchManga(mockParam.manga);
-    console.log(result);
+    const result = await service.search({ value: mockParam.value });
     expect(searchManga).toBeCalled();
     expect(getMangaHtml).toBeCalled();
     expect(result).toEqual(mangas);

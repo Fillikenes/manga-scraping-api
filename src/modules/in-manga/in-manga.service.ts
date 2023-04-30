@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import {
@@ -10,37 +10,31 @@ import {
   DASH_PATTERN,
   SPACE_PATTERN,
 } from './constants';
+import { EChapterImageAttribute, EChapterImagesSelector } from './enums';
+import { IChapterInformation, ISearchResponse } from './models';
 import {
-  EChapterImageAttribute,
-  EChapterImagesSelector,
-  EMangaSearched,
-} from './enums';
-import {
-  IChapterInformation,
-  IMangaInformation,
-  ISearchResponse,
-} from './models';
-import {
+  IMangaScrapingService,
   IOutboundChapter,
+  IOutboundGetParams,
   IOutboundImage,
+  IOutboundSearchParams,
   IOutboundSearchResponse,
 } from '../../interfaces';
 
 @Injectable()
-export class InMangaService {
-  private logger = new Logger();
-
+export class InMangaService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async searchManga(value: string): Promise<IOutboundSearchResponse[]> {
+  public async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const query = { name: value };
     const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
     const data: ISearchResponse = JSON.parse(inMangaAPIResponse.data);
-    this.logger.log(data.message);
     if (data.success && data.result.length) {
       return data.result.map((searchResult) => {
         const mangaName = String(searchResult.Name).replace(
@@ -59,19 +53,17 @@ export class InMangaService {
     return [];
   }
 
-  public async getManga(value: string): Promise<IOutboundChapter[]> {
-    const manga = await this._getMangaInformation(value);
-    const chapters = await this._getChaptersInformation(
-      manga.altId,
-      manga.helperName,
-    );
+  public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
+    const { length, [length - 1]: altId, [length - 2]: name } = url.split('/');
+    const mangaName = String(name).replace(SPACE_PATTERN, DASH_PATTERN);
+    const chapters = await this._getChaptersInformation(altId, mangaName);
     const chaptersImagesPromises: Promise<IOutboundChapter>[] = chapters.map(
       async (chapter: IChapterInformation) => {
         return {
           id: chapter.id,
           name: `Chapter ${chapter.id}`,
           images: await this._getChapterImages(
-            manga.helperName,
+            mangaName,
             chapter.altId,
             chapter.id,
           ),
@@ -80,22 +72,6 @@ export class InMangaService {
     );
 
     return Promise.all(chaptersImagesPromises);
-  }
-
-  private async _getMangaInformation(
-    manga: string,
-  ): Promise<IMangaInformation> {
-    const jsonResponse = await this.searchManga(manga);
-
-    const { name, url } = jsonResponse[EMangaSearched.First];
-    const mangaName = String(name).replace(SPACE_PATTERN, DASH_PATTERN);
-
-    return {
-      name: name,
-      url: url,
-      altId: url.split('/').pop(),
-      helperName: mangaName,
-    };
   }
 
   private async _getChaptersInformation(

@@ -1,16 +1,17 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { LectorMangaService } from './lector-manga.service';
+import { LectorMangaGetDto, LectorMangaSearchDto } from './dtos';
 @Controller('lector-manga')
 export class LectorMangaController {
   constructor(private readonly lectorMangaService: LectorMangaService) {}
 
-  @Get('/:manga')
-  getManga(@Param() query) {
-    return this.lectorMangaService.getInfoManga(query.manga);
+  @Get('/')
+  getManga(@Query() params: LectorMangaGetDto) {
+    return this.lectorMangaService.get({ url: params.url });
   }
 
-  @Get('/search/:manga')
-  searchManga(@Param() query) {
-    return this.lectorMangaService.searchManga(query.manga);
+  @Get('/search/:value')
+  searchManga(@Param() params: LectorMangaSearchDto) {
+    return this.lectorMangaService.search({ value: params.value });
   }
 }

@@ -119,7 +119,7 @@ describe('TmoLectorNetService', () => {
           } as any;
         });
 
-      const results = await service.search(params.value, params.getAll);
+      const results = await service.search({ value: params.value });
 
       expect(results).toBeDefined();
       for (const result of results) {
@@ -191,7 +191,7 @@ describe('TmoLectorNetService', () => {
           } as any;
         });
 
-      const result = await service.getPage(params);
+      const result = await service.get({ url: params });
 
       expect(result).toBeDefined();
     });

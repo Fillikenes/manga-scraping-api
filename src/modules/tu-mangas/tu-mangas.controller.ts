@@ -1,24 +1,22 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { TuMangasGetListDto } from './dto';
+import { TuMangasGetListDto } from './dtos';
 import { TuMangasService } from './tu-mangas.service';
-import { TuMangasSearchDto } from './dto/tu-mangas-query.dto';
-import {
-  IBaseController,
-  IOutboundChapter,
-  IOutboundSearchResponse,
-} from 'src/interfaces';
+import { TuMangasSearchDto } from './dtos/tu-mangas-query.dto';
+import { IOutboundChapter, IOutboundSearchResponse } from '../../interfaces';
 
 @Controller('tu-mangas')
-export class TuMangasController implements IBaseController {
+export class TuMangasController {
   constructor(private readonly tumangasService: TuMangasService) {}
+
   @Get('/')
   async get(@Query() query: TuMangasGetListDto): Promise<IOutboundChapter[]> {
-    return this.tumangasService.getMangaInfo(query.name);
+    return this.tumangasService.get({ url: query.url });
   }
-  @Get('/search/:nameManga')
+
+  @Get('/search/:value')
   async search(
     @Param() params: TuMangasSearchDto,
   ): Promise<IOutboundSearchResponse[]> {
-    return this.tumangasService.searchManga(params.nameManga);
+    return this.tumangasService.search({ value: params.value });
   }
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TuMangasGetListDto, TuMangasSearchDto } from './dto';
-import { TuMangasController } from './tu-mangas.controller';
 import { TuMangasService } from './tu-mangas.service';
+import { TuMangasController } from './tu-mangas.controller';
+import { TuMangasGetListDto, TuMangasSearchDto } from './dtos';
 
 describe('TumangasController', () => {
   let controller: TuMangasController;
@@ -13,8 +13,8 @@ describe('TumangasController', () => {
         {
           provide: TuMangasService,
           useValue: {
-            getMangaInfo: jest.fn(),
-            searchManga: jest.fn(),
+            get: jest.fn(),
+            search: jest.fn(),
           },
         },
       ],
@@ -44,10 +44,10 @@ describe('TumangasController', () => {
       },
     ];
     const param: TuMangasGetListDto = {
-      name: 'www.manga.com/name=mange1',
+      url: 'www.manga.com/name=mange1',
     };
     const getMangaInfoSpy = jest
-      .spyOn(tuMangasService, 'getMangaInfo')
+      .spyOn(tuMangasService, 'get')
       .mockResolvedValue(expectResponse);
 
     const result = await controller.get(param);
@@ -64,10 +64,10 @@ describe('TumangasController', () => {
       },
     ];
     const param: TuMangasSearchDto = {
-      nameManga: 'solo',
+      value: 'solo',
     };
     const getMangaInfoSpy = jest
-      .spyOn(tuMangasService, 'searchManga')
+      .spyOn(tuMangasService, 'search')
       .mockResolvedValue(expectResponse);
 
     const result = await controller.search(param);

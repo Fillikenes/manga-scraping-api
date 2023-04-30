@@ -74,7 +74,7 @@ describe('AnzMangaService', () => {
       }));
       const getSpy = jest.spyOn(httpService, 'get').mockResolvedValue(response);
 
-      const result = await service.search(params);
+      const result = await service.search({ value: params });
 
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);
@@ -153,7 +153,7 @@ describe('AnzMangaService', () => {
           } as any;
         });
 
-      const result = await service.getPage(params);
+      const result = await service.get({ url: params });
 
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);

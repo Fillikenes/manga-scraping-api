@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import {
+  IMangaScrapingService,
   IOutboundChapter,
+  IOutboundGetParams,
   IOutboundImage,
+  IOutboundSearchParams,
   IOutboundSearchResponse,
 } from '../../interfaces';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
@@ -20,15 +23,18 @@ import {
   ISuggestionItemResponse,
   ISuggestionResponse,
 } from './models';
+import { EChapterAttribute } from './enums';
 
 @Injectable()
-export class AnzMangaService {
+export class AnzMangaService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string): Promise<IOutboundSearchResponse[]> {
+  public async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
       url: BASE_SEARCH_URL,
       query: { query: value },
@@ -42,7 +48,7 @@ export class AnzMangaService {
     });
   }
 
-  public async getPage(url: string): Promise<IOutboundChapter[]> {
+  public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
     const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {
@@ -55,18 +61,20 @@ export class AnzMangaService {
     return Promise.all(chaptersImagesPromises);
   }
 
-  private async _getChapters(url: string): Promise<IOutboundChapter[]> {
+  private async _getChapters(url: string): Promise<IChapter[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
       (element: Element) => {
         const urlSection = element.querySelector(EChapterSelector.Url);
         const title = urlSection.textContent;
+        const url = urlSection.getAttribute(EChapterAttribute.Href);
         const titleSplit = title.split(EChapterSeparator.Name);
         const id = Number(titleSplit[titleSplit.length - 1]);
         const name = element.querySelector(EChapterSelector.Name).textContent;
         return {
           id,
+          url,
           name: name || title,
           images: [],
         };

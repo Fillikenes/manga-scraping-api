@@ -1,51 +1,87 @@
-GET http://localhost:3001 HTTP/1.1
+@hostname = http://localhost
+@port = 3001
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
 ###
-GET http://localhost:3001/health HTTP/1.1
+# @name BaseRoute
+GET {{host}} HTTP/1.1
+
 ###
-GET http://localhost:3001/lector-tmo?url=https://lectortmo.com/library/manhwa/57813/the-player-that-cant-level-up HTTP/1.1
+# @name HealthChecker
+GET {{host}}/health HTTP/1.1
+
+
 ###
-### TuMangas
+# @name AnzManga
 ###
-GET http://localhost:3001/tu-mangas?name=one-punch-man
+
 ###
-GET http://localhost:3001/tu-mangas/search/solo
+# @name SearchAnzManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/anz-manga/search/{{value}} HTTP/1.1
+
 ###
-GET http://localhost:3001/tu-mangas?name=el-salvaje-oeste-marcial
-###
-### ANZ MANGA
-###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
-###
-GET http://localhost:3001/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
-###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
-###
-GET http://localhost:3001/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
-###
-GET http://localhost:3001/anz-manga/search/one HTTP/1.1
+# @name GetAnzManga
+# @prompt url Find by manga's url. Example: https://www.anzmangashd.com/manga/one-piece 
+GET {{host}}/anz-manga?url={{url}} HTTP/1.1
+
 ### 
-### IN MANGA
+# @name InManga
 ###
-GET http://localhost:3001/in-manga/One Punch Man
+
 ###
-GET http://localhost:3001/in-manga/search/One Punch Man
+# @name  SearchInManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/in-manga/search/{{value}} HTTP/1.1
 ###
-### TMO LECTOR NET
+
 ###
-GET http://localhost:3001/tmo-lector-net?url=https://tmolector.net/manga/one-punch-man
-###
-GET http://localhost:3001/tmo-lector-net/search/ab
-###
-GET http://localhost:3001/tmo-lector-net/search/ab?getAll=true
+# @name GetInManga
+# @prompt url Find by manga's url. Example: https://inmanga.com/ver/manga/20-Mensou-ni-Onegai!!/af36dece-8681-48c1-827f-8a019f41dcc1
+GET {{host}}/in-manga?url={{url}} HTTP/1.1
+
 ### 
-### Lector Manga
+# @name LectorManga
 ###
-GET http://localhost:3001/lector-manga/one-punch-man HTTP/1.1
+
 ###
-GET http://localhost:3001/lector-manga/search/one-punch-man HTTP/1.1
+# @name SearchLectorManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/lector-manga/search/{{value}} HTTP/1.1
+
+
 ###
-### MANGA TIGRE
+# @name GetLectorManga
+# @prompt url Find by manga's url. Example: https://lectormanga.fun/manga/one-punch-man/
+GET {{host}}/lector-manga?url={{url}} HTTP/1.1
+
 ###
-GET http://localhost:3001/manga-tigre/One Punch Man
+# @name TmoLectorNet
 ###
-GET http://localhost:3001/manga-tigre/search/One Punch Man
+
+###
+# @name searchTmoLectorNet
+# @prompt value Find by manga's name. Example: dragon
+GET {{host}}/tmo-lector-net/search/{{value}} HTTP/1.1
+
+
+###
+# @name GetTmoLectorNet
+# @prompt url Find by manga's url. Example: https://tmolector.net/manga/one-punch-man
+GET {{host}}/tmo-lector-net?url={{url}} HTTP/1.1
+
+
+###
+# @name TuMangas
+###
+
+###
+# @name SearchTuMangas
+# @prompt value Find by manga's name. Example: Dragon Ball
+GET {{host}}/tu-mangas/search/{{value}} HTTP/1.1
+
+###
+# @name GetTuMangas 
+# @prompt url Find by manga's url. Example: https://tumangas.net/manga/dragon-ball-super
+GET {{host}}/tu-mangas?url={{url}} HTTP/1.1

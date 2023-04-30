@@ -1,8 +1,9 @@
 import { IsDefined, IsString } from 'class-validator';
-import { MatchRegex } from '../../../validators';
 import { PAGE_PATTERN } from '../constants';
+import { MatchRegex } from '../../../validators';
+import { IOutboundGetParams } from '../../../interfaces';
 
-export class AnzMangaQueryDto {
+export class AnzMangaQueryDto implements IOutboundGetParams {
   @IsDefined()
   @IsString()
   @MatchRegex(PAGE_PATTERN, {
