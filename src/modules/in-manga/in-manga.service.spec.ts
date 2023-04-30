@@ -84,10 +84,8 @@ describe('InMangaService', () => {
 
   describe('#getManga', () => {
     it('should get all the information associated with a manga based in manga given as argument', async () => {
-      const params = 'One Piece';
-      const searchSpy = jest
-        .spyOn(service, 'searchManga')
-        .mockResolvedValue(OSearchResponse);
+      const params =
+        'https://inmanga.com/ver/manga/20-Mensou-ni-Onegai!!/af36dece-8681-48c1-827f-8a019f41dcc1';
 
       const chapterResponse = {
         data: JSON.stringify({ result: chaptersInfo }),
@@ -128,7 +126,6 @@ describe('InMangaService', () => {
       const result = await service.getManga(params);
 
       expect(result).toBeDefined();
-      expect(searchSpy).toBeCalledTimes(1);
       expect(getChapterSpy).toHaveBeenCalled();
       expect(getImageHtmlSpy).toHaveBeenCalled();
       expect(getImageSpy).toBeCalledTimes(2);
