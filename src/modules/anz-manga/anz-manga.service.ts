@@ -20,6 +20,7 @@ import {
   ISuggestionItemResponse,
   ISuggestionResponse,
 } from './models';
+import { EChapterAttribute } from './enums';
 
 @Injectable()
 export class AnzMangaService {
@@ -55,18 +56,20 @@ export class AnzMangaService {
     return Promise.all(chaptersImagesPromises);
   }
 
-  private async _getChapters(url: string): Promise<IOutboundChapter[]> {
+  private async _getChapters(url: string): Promise<IChapter[]> {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParser.parseHtml(body);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
       (element: Element) => {
         const urlSection = element.querySelector(EChapterSelector.Url);
         const title = urlSection.textContent;
+        const url = urlSection.getAttribute(EChapterAttribute.Href);
         const titleSplit = title.split(EChapterSeparator.Name);
         const id = Number(titleSplit[titleSplit.length - 1]);
         const name = element.querySelector(EChapterSelector.Name).textContent;
         return {
           id,
+          url,
           name: name || title,
           images: [],
         };

@@ -6,55 +6,83 @@
 ###
 # @name BaseRoute
 GET {{host}} HTTP/1.1
+
 ###
 # @name HealthChecker
 GET {{host}}/health HTTP/1.1
+
+
+###
+# @name AnzManga
+###
+
+###
+# @name SearchAnzManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/anz-manga/search/{{value}} HTTP/1.1
+
+###
+# @name GetAnzManga
+# @prompt url Find by manga's url. Example: https://www.anzmangashd.com/manga/one-piece 
+GET {{host}}/anz-manga?url={{url}} HTTP/1.1
+
+### 
+# @name InManga
+###
+
+###
+# @name  SearchInManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/in-manga/search/{{value}}
+###
+
+###
+# @name GetInManga
+# @prompt url Find by manga's url. Example: https://inmanga.com/ver/manga/20-Mensou-ni-Onegai!!/af36dece-8681-48c1-827f-8a019f41dcc1
+GET {{host}}/in-manga?url={{url}}
+
+### 
+# @name LectorManga
+###
+
+###
+# @name SearchLectorManga
+# @prompt value Find by manga's name. Example: one piece
+GET {{host}}/lector-manga/search/{{value}}
+
+
+###
+# @name GetLectorManga
+# @prompt url Find by manga's url. Example: https://lectormanga.fun/manga/one-punch-man/
+GET {{host}}/lector-manga?url={{url}}
+
+###
+# @name TmoLectorNet
+###
+
+###
+# @name searchTmoLectorNet
+# @prompt value Find by manga's name. Example: dragon
+# @prompt getAll Get all results from the site: false or true
+GET {{host}}/tmo-lector-net/search/{{value}}?getAll={{getAll}}
+
+
+###
+# @name GetTmoLectorNet
+# @prompt url Find by manga's url. Example: https://tmolector.net/manga/one-punch-man
+GET {{host}}/tmo-lector-net?url={{url}}
+
 
 ###
 # @name TuMangas
 ###
 
-# 
-GET {{host}}/tu-mangas?url=https://tumangas.net/manga/dragon-ball-super
 ###
-GET {{host}}/tu-mangas/search/dragon ball
+# @name SearchTuMangas
+# @prompt value Find by manga's name. Example: Dragon Ball
+GET {{host}}/tu-mangas/search/{{value}}
+
 ###
-GET {{host}}/tu-mangas?name=el-salvaje-oeste-marcial
-###
-### ANZ MANGA
-###
-GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/one-piece HTTP/1.1
-###
-GET {{host}}/anz-manga?url=https://anzmangashd.com/manga/batsu-hare HTTP/1.1
-###
-GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/komisan-wa-comyushou-desu HTTP/1.1
-###
-GET {{host}}/anz-manga?url=https://www.anzmangashd.com/manga/one-piece-episode-ace HTTP/1.1
-###
-GET {{host}}/anz-manga/search/one HTTP/1.1
-### 
-### IN MANGA
-###
-GET {{host}}/in-manga/One Punch Man
-###
-GET {{host}}/in-manga/search/One Punch Man
-###
-### TMO LECTOR NET
-###
-GET {{host}}/tmo-lector-net?url=https://tmolector.net/manga/one-punch-man
-###
-GET {{host}}/tmo-lector-net/search/ab
-###
-GET {{host}}/tmo-lector-net/search/ab?getAll=true
-### 
-### Lector Manga
-###
-GET {{host}}/lector-manga/one-punch-man HTTP/1.1
-###
-GET {{host}}/lector-manga/search/one-punch-man HTTP/1.1
-###
-### MANGA TIGRE
-###
-GET {{host}}/manga-tigre/One Punch Man
-###
-GET {{host}}/manga-tigre/search/One Punch Man
+# @name GetTuMangas 
+# @prompt url Find by manga's url. Example: https://tumangas.net/manga/dragon-ball-super
+GET {{host}}/tu-mangas?url={{url}}

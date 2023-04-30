@@ -28,8 +28,8 @@ export class TuMangasService {
     });
   }
 
-  async getMangaInfo(name: string) {
-    const listChapters = await this._getListChapters(name);
+  async getMangaInfo(url: string) {
+    const listChapters = await this._getListChapters(url);
     const infoManga = listChapters.map(async (chapter: IChapter) => {
       const { id, name, url } = chapter;
       return {
@@ -41,8 +41,7 @@ export class TuMangasService {
     return Promise.all(infoManga);
   }
 
-  private async _getListChapters(name: string) {
-    const url = `${BASE_MANGA_URL}${name}`;
+  private async _getListChapters(url: string) {
     const { body } = await this.httpService.get({ url });
     const document = await this.htmlParseService.parseHtml(body);
     return [...document.querySelectorAll(EChapterList.items)].map(

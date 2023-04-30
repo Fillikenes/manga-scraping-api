@@ -16,8 +16,8 @@ export class LectorMangaService {
     private readonly htmlParseService: HtmlParserService,
   ) {}
 
-  async getInfoManga(nameManga: string): Promise<IMangaInfo[]> {
-    const chapterList = await this._getChapters(nameManga);
+  async getInfoManga(url: string): Promise<IMangaInfo[]> {
+    const chapterList = await this._getChapters(url);
     const promises = chapterList.map(async (el: IChapter) => {
       const infoImgs = await this._getImgsChapter(el.urlChapter);
       return { ...el, infoImgs };
@@ -25,8 +25,7 @@ export class LectorMangaService {
     return Promise.all(promises);
   }
 
-  private async _getChapters(nameManga: string): Promise<IChapter[]> {
-    const url = `${BASE_URL}/${nameManga}/`;
+  private async _getChapters(url: string): Promise<IChapter[]> {
     const { body } = await this.httpService.get({
       url,
     });
