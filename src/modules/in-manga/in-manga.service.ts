@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import {
@@ -10,16 +10,8 @@ import {
   DASH_PATTERN,
   SPACE_PATTERN,
 } from './constants';
-import {
-  EChapterImageAttribute,
-  EChapterImagesSelector,
-  EMangaSearched,
-} from './enums';
-import {
-  IChapterInformation,
-  IMangaInformation,
-  ISearchResponse,
-} from './models';
+import { EChapterImageAttribute, EChapterImagesSelector } from './enums';
+import { IChapterInformation, ISearchResponse } from './models';
 import {
   IOutboundChapter,
   IOutboundImage,
@@ -28,8 +20,6 @@ import {
 
 @Injectable()
 export class InMangaService {
-  private logger = new Logger();
-
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,

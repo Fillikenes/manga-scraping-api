@@ -8,7 +8,7 @@ import {
   EImageSelector,
   EImageAttribute,
 } from './enums/index';
-import { BASE_SEARCH_URL, BASE_URL } from './constants';
+import { BASE_SEARCH_URL } from './constants';
 @Injectable()
 export class LectorMangaService {
   constructor(

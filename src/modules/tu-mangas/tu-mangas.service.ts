@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import { EChapterList, EChartepListImgs, EMangaSelector } from './enums';
-import { BASE_MANGA_URL, BASE_SEARCH_URL } from './constants';
+import { BASE_SEARCH_URL } from './constants';
 
 interface IChapter {
   id: number;
