@@ -5,7 +5,7 @@ import {
   IOutboundSearchResponse,
 } from '.';
 
-export interface IBaseController {
+export interface IMangaScrapingService {
   search(params: IOutboundSearchParams): Promise<IOutboundSearchResponse[]>;
   get(params: IOutboundGetParams): Promise<IOutboundChapter[]>;
 }

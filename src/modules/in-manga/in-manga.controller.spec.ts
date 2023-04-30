@@ -15,8 +15,8 @@ describe('InMangaController', () => {
         {
           provide: InMangaService,
           useValue: {
-            getManga: jest.fn(),
-            searchManga: jest.fn(),
+            get: jest.fn(),
+            search: jest.fn(),
           },
         },
       ],
@@ -38,14 +38,14 @@ describe('InMangaController', () => {
         url: 'One Piece',
       };
       const getMangaSpy = jest
-        .spyOn(service, 'getManga')
+        .spyOn(service, 'get')
         .mockResolvedValue(mangaResponse);
 
       const result = await controller.get(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(mangaResponse);
-      expect(getMangaSpy).toHaveBeenCalledWith(params.url);
+      expect(getMangaSpy).toHaveBeenCalledWith(params);
     });
   });
 
@@ -55,14 +55,14 @@ describe('InMangaController', () => {
         value: 'One Piece',
       };
       const searchMangaSpy = jest
-        .spyOn(service, 'searchManga')
+        .spyOn(service, 'search')
         .mockResolvedValue(OSearchResponse);
 
       const result = await controller.search(params);
 
       expect(result).toBeDefined();
       expect(result).toEqual(OSearchResponse);
-      expect(searchMangaSpy).toHaveBeenCalledWith(params.value);
+      expect(searchMangaSpy).toHaveBeenCalledWith(params);
     });
   });
 });

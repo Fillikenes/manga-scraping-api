@@ -13,19 +13,24 @@ import {
 import { EChapterImageAttribute, EChapterImagesSelector } from './enums';
 import { IChapterInformation, ISearchResponse } from './models';
 import {
+  IMangaScrapingService,
   IOutboundChapter,
+  IOutboundGetParams,
   IOutboundImage,
+  IOutboundSearchParams,
   IOutboundSearchResponse,
 } from '../../interfaces';
 
 @Injectable()
-export class InMangaService {
+export class InMangaService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async searchManga(value: string): Promise<IOutboundSearchResponse[]> {
+  public async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const query = { name: value };
     const params = { query, url: BASE_SEARCH_MANGA_URL, isJson: true };
     const inMangaAPIResponse = await this.httpService.get(params);
@@ -48,7 +53,7 @@ export class InMangaService {
     return [];
   }
 
-  public async getManga(url: string): Promise<IOutboundChapter[]> {
+  public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
     const { length, [length - 1]: altId, [length - 2]: name } = url.split('/');
     const mangaName = String(name).replace(SPACE_PATTERN, DASH_PATTERN);
     const chapters = await this._getChaptersInformation(altId, mangaName);

@@ -14,7 +14,7 @@ describe('AnzMangaController', () => {
         {
           provide: AnzMangaService,
           useValue: {
-            getPage: jest.fn(),
+            get: jest.fn(),
             search: jest.fn(),
           },
         },
@@ -44,14 +44,14 @@ describe('AnzMangaController', () => {
       },
     ];
     const getPageSpy = jest
-      .spyOn(service, 'getPage')
+      .spyOn(service, 'get')
       .mockResolvedValue(expectedResponse);
 
     const result = await controller.get(params);
 
     expect(result).toBeDefined();
     expect(result).toEqual(expectedResponse);
-    expect(getPageSpy).toHaveBeenCalledWith(params.url);
+    expect(getPageSpy).toHaveBeenCalledWith(params);
   });
 
   it('#search - should get suggestions of mangas based in the search value given as argument', async () => {
@@ -72,6 +72,6 @@ describe('AnzMangaController', () => {
 
     expect(result).toBeDefined();
     expect(result).toEqual(expectedResponse);
-    expect(searchSpy).toHaveBeenCalledWith(params.value);
+    expect(searchSpy).toHaveBeenCalledWith(params);
   });
 });

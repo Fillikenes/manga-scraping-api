@@ -53,7 +53,7 @@ describe('InMangaService', () => {
       const response = { data: JSON.stringify(searchResponse) };
       const getSpy = jest.spyOn(httpService, 'get').mockResolvedValue(response);
 
-      const result = await service.searchManga(params);
+      const result = await service.search({ value: params });
 
       expect(result).toBeDefined();
       expect(result).toEqual(OSearchResponse);
@@ -70,7 +70,7 @@ describe('InMangaService', () => {
       const response = { data: JSON.stringify(searchResponse) };
       const getSpy = jest.spyOn(httpService, 'get').mockResolvedValue(response);
 
-      const result = await service.searchManga(params);
+      const result = await service.search({ value: params });
 
       expect(result).toBeDefined();
       expect(result).toEqual([]);
@@ -123,7 +123,7 @@ describe('InMangaService', () => {
           } as any;
         });
 
-      const result = await service.getManga(params);
+      const result = await service.get({ url: params });
 
       expect(result).toBeDefined();
       expect(getChapterSpy).toHaveBeenCalled();

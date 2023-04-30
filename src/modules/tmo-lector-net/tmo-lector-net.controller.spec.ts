@@ -14,7 +14,7 @@ describe('TmoLectorNetController', () => {
         {
           provide: TmoLectorNetService,
           useValue: {
-            getPage: jest.fn(),
+            get: jest.fn(),
             search: jest.fn(),
           },
         },
@@ -54,7 +54,7 @@ describe('TmoLectorNetController', () => {
         },
       ];
       const getPageSpy = jest
-        .spyOn(service, 'getPage')
+        .spyOn(service, 'get')
         .mockResolvedValue(expectedResponse);
 
       const result = await controller.get(params);
@@ -62,7 +62,7 @@ describe('TmoLectorNetController', () => {
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);
       expect(getPageSpy).toBeCalled();
-      expect(getPageSpy).toBeCalledWith(params.url);
+      expect(getPageSpy).toBeCalledWith(params);
     });
   });
 
@@ -71,7 +71,6 @@ describe('TmoLectorNetController', () => {
       const paramsBody = {
         value: 'dragon',
       } as TmoLectorNetSearchParamDto;
-      const paramsQuery = { getAll: true };
       const expectedResponse = [
         {
           url: 'https://tmolector.net/manga/shonen-no-abyss-senkou-shojo',
@@ -88,15 +87,12 @@ describe('TmoLectorNetController', () => {
         .spyOn(service, 'search')
         .mockResolvedValue(expectedResponse);
 
-      const result = await controller.search(paramsBody, paramsQuery.getAll);
+      const result = await controller.search(paramsBody);
 
       expect(result).toBeDefined();
       expect(result).toEqual(expectedResponse);
       expect(searchSpy).toHaveBeenCalled();
-      expect(searchSpy).toHaveBeenCalledWith(
-        paramsBody.value,
-        paramsQuery.getAll,
-      );
+      expect(searchSpy).toHaveBeenCalledWith(paramsBody);
     });
   });
 });

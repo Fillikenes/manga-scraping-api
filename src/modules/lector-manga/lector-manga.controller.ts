@@ -7,11 +7,11 @@ export class LectorMangaController {
 
   @Get('/')
   getManga(@Query() params: LectorMangaGetDto) {
-    return this.lectorMangaService.getInfoManga(params.url);
+    return this.lectorMangaService.get({ url: params.url });
   }
 
   @Get('/search/:value')
   searchManga(@Param() params: LectorMangaSearchDto) {
-    return this.lectorMangaService.searchManga(params.value);
+    return this.lectorMangaService.search({ value: params.value });
   }
 }

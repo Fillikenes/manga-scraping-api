@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import {
+  IMangaScrapingService,
   IOutboundChapter,
+  IOutboundGetParams,
   IOutboundImage,
+  IOutboundSearchParams,
   IOutboundSearchResponse,
 } from '../../interfaces';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
@@ -23,13 +26,15 @@ import {
 import { EChapterAttribute } from './enums';
 
 @Injectable()
-export class AnzMangaService {
+export class AnzMangaService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(value: string): Promise<IOutboundSearchResponse[]> {
+  public async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
       url: BASE_SEARCH_URL,
       query: { query: value },
@@ -43,7 +48,7 @@ export class AnzMangaService {
     });
   }
 
-  public async getPage(url: string): Promise<IOutboundChapter[]> {
+  public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
     const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {

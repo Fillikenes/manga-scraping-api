@@ -7,16 +7,16 @@ export const mockUrlManga = 'https://lectormanga.online/manga/one-punch-man/';
 
 export const expectRequest = [
   {
-    urlChapter: 'https://lectormanga.online/manga/one-punch-man/214/',
-    chapter: 214,
-    infoImgs: [
+    id: 214,
+    name: '214',
+    images: [
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/001.jpg',
-        page: 0,
+        correlative: 0,
       },
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/002.jpg',
-        page: 1,
+        correlative: 1,
       },
     ],
   },
@@ -37,30 +37,32 @@ export const listChapters = `
 
 export const chapters = [
   {
+    id: 214,
+    name: '214',
     urlChapter: 'https://lectormanga.online/manga/one-punch-man/214/',
-    chapter: 214,
-    infoImgs: [
+    images: [
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/001.jpg',
-        page: 0,
+        correlative: 0,
       },
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/002.jpg',
-        page: 1,
+        correlative: 1,
       },
     ],
   },
   {
-    urlChapter: 'https://lectormanga.online/manga/one-punch-man/214/',
-    chapter: 213,
-    infoImgs: [
+    id: 213,
+    name: '213',
+    urlChapter: 'https://lectormanga.online/manga/one-punch-man/213/',
+    images: [
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/001.jpg',
-        page: 0,
+        correlative: 0,
       },
       {
         url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/002.jpg',
-        page: 1,
+        correlative: 1,
       },
     ],
   },
@@ -77,11 +79,11 @@ export const listImgsChapter = `
 export const imgs = [
   {
     url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/001.jpg',
-    page: 0,
+    correlative: 0,
   },
   {
     url: 'https://lectormanga.online/wp-content/uploads/WP-manga/data/manga_61ed9f47708b1/4b024a947849152c2dfcffeb0bc8deff/002.jpg',
-    page: 1,
+    correlative: 1,
   },
 ];
 

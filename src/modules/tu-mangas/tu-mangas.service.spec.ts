@@ -48,8 +48,8 @@ describe('TumangasService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return all information about a manga using a name valid to TuMangas webpage', async () => {
-    const nameManga = 'el-salvaje-oeste-marcial';
+  it('should return all information about a manga using an url valid to TuMangas webpage', async () => {
+    const nameManga = 'https://tumangas.net/manga/dragon-ball-super';
     const chapterResponse = {
       body: listChapters,
     };
@@ -107,7 +107,7 @@ describe('TumangasService', () => {
         } as any;
       });
 
-    const result = await service.getMangaInfo(nameManga);
+    const result = await service.get({ url: nameManga });
     expect(getListChapterHttp).toBeCalled();
     expect(getListChapterHtml).toBeCalled();
     expect(getImagesListChapterHttp).toBeCalled();
@@ -143,7 +143,7 @@ describe('TumangasService', () => {
         } as any;
       });
 
-    const result = await service.searchManga(searchManga);
+    const result = await service.search({ value: searchManga });
     expect(getListMangasHttp).toBeCalled();
     expect(getListMangasHtml).toBeCalled();
     expect(result).toEqual(mangas);

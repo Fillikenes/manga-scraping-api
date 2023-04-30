@@ -14,8 +14,8 @@ describe('LectorMangaController', () => {
         {
           provide: LectorMangaService,
           useValue: {
-            getInfoManga: jest.fn(),
-            searchManga: jest.fn(),
+            get: jest.fn(),
+            search: jest.fn(),
           },
         },
       ],
@@ -33,7 +33,7 @@ describe('LectorMangaController', () => {
 
   it('#getManga - return a list of all chapter with the images', async () => {
     const getInfoMangaSpy = jest
-      .spyOn(service, 'getInfoManga')
+      .spyOn(service, 'get')
       .mockResolvedValue(expectRequest);
     const result = await controller.getManga(mockParam);
     expect(result).toBeDefined();
@@ -42,7 +42,7 @@ describe('LectorMangaController', () => {
 
   it('#searchManga - return a list of all mangas finded', async () => {
     const searchMangaSpy = jest
-      .spyOn(service, 'searchManga')
+      .spyOn(service, 'search')
       .mockResolvedValue(mangas);
     const result = await controller.searchManga(mockParam);
     expect(result).toBeDefined();

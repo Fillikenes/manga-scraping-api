@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import _ from 'lodash';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '../../services/http/http.service';
 import { HtmlParserService } from '../../services/html-parser/html-parser.service';
 import {
@@ -17,26 +17,31 @@ import {
   ESearchPageNumber,
 } from './enums';
 import { BASE_SEARCH_URL } from './constants';
-import { IOutboundChapter, IOutboundSearchResponse } from '../../interfaces';
+import {
+  IMangaScrapingService,
+  IOutboundChapter,
+  IOutboundGetParams,
+  IOutboundSearchParams,
+  IOutboundSearchResponse,
+} from '../../interfaces';
 
 @Injectable()
-export class TmoLectorNetService {
+export class TmoLectorNetService implements IMangaScrapingService {
   constructor(
     private readonly httpService: HttpService,
     private readonly htmlParser: HtmlParserService,
   ) {}
 
-  public async search(
-    value: string,
-    getAll: boolean,
-  ): Promise<IOutboundSearchResponse[]> {
+  public async search({
+    value,
+  }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const { results, hasMorePages, totalPages } =
       await this._getMangasFromSearch({
         value,
         pageNbr: ESearchPageNumber.Default,
       });
 
-    if (getAll && hasMorePages) {
+    if (hasMorePages) {
       const searchPromises = _.range(
         ESearchPageNumber.InitialIteration,
         totalPages + 1,
@@ -54,6 +59,19 @@ export class TmoLectorNetService {
         url: result.url,
       };
     });
+  }
+
+  public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
+    const chapters = await this._getChapters(url);
+    const chaptersImagesPromises = chapters.map(async (chapter: any) => {
+      return {
+        id: chapter.id,
+        name: chapter.name,
+        images: await this._getChapterImages(chapter.url),
+      };
+    });
+
+    return Promise.all(chaptersImagesPromises);
   }
 
   private async _getMangasFromSearch({ value, pageNbr }) {
@@ -87,19 +105,6 @@ export class TmoLectorNetService {
       totalPages,
       results,
     };
-  }
-
-  public async getPage(url: string): Promise<IOutboundChapter[]> {
-    const chapters = await this._getChapters(url);
-    const chaptersImagesPromises = chapters.map(async (chapter: any) => {
-      return {
-        id: chapter.id,
-        name: chapter.name,
-        images: await this._getChapterImages(chapter.url),
-      };
-    });
-
-    return Promise.all(chaptersImagesPromises);
   }
 
   private async _getChapters(url: string): Promise<any[]> {

@@ -33,13 +33,13 @@ GET {{host}}/anz-manga?url={{url}} HTTP/1.1
 ###
 # @name  SearchInManga
 # @prompt value Find by manga's name. Example: one piece
-GET {{host}}/in-manga/search/{{value}}
+GET {{host}}/in-manga/search/{{value}} HTTP/1.1
 ###
 
 ###
 # @name GetInManga
 # @prompt url Find by manga's url. Example: https://inmanga.com/ver/manga/20-Mensou-ni-Onegai!!/af36dece-8681-48c1-827f-8a019f41dcc1
-GET {{host}}/in-manga?url={{url}}
+GET {{host}}/in-manga?url={{url}} HTTP/1.1
 
 ### 
 # @name LectorManga
@@ -48,13 +48,13 @@ GET {{host}}/in-manga?url={{url}}
 ###
 # @name SearchLectorManga
 # @prompt value Find by manga's name. Example: one piece
-GET {{host}}/lector-manga/search/{{value}}
+GET {{host}}/lector-manga/search/{{value}} HTTP/1.1
 
 
 ###
 # @name GetLectorManga
 # @prompt url Find by manga's url. Example: https://lectormanga.fun/manga/one-punch-man/
-GET {{host}}/lector-manga?url={{url}}
+GET {{host}}/lector-manga?url={{url}} HTTP/1.1
 
 ###
 # @name TmoLectorNet
@@ -63,14 +63,13 @@ GET {{host}}/lector-manga?url={{url}}
 ###
 # @name searchTmoLectorNet
 # @prompt value Find by manga's name. Example: dragon
-# @prompt getAll Get all results from the site: false or true
-GET {{host}}/tmo-lector-net/search/{{value}}?getAll={{getAll}}
+GET {{host}}/tmo-lector-net/search/{{value}} HTTP/1.1
 
 
 ###
 # @name GetTmoLectorNet
 # @prompt url Find by manga's url. Example: https://tmolector.net/manga/one-punch-man
-GET {{host}}/tmo-lector-net?url={{url}}
+GET {{host}}/tmo-lector-net?url={{url}} HTTP/1.1
 
 
 ###
@@ -80,9 +79,9 @@ GET {{host}}/tmo-lector-net?url={{url}}
 ###
 # @name SearchTuMangas
 # @prompt value Find by manga's name. Example: Dragon Ball
-GET {{host}}/tu-mangas/search/{{value}}
+GET {{host}}/tu-mangas/search/{{value}} HTTP/1.1
 
 ###
 # @name GetTuMangas 
 # @prompt url Find by manga's url. Example: https://tumangas.net/manga/dragon-ball-super
-GET {{host}}/tu-mangas?url={{url}}
+GET {{host}}/tu-mangas?url={{url}} HTTP/1.1
