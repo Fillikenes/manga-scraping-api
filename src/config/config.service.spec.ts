@@ -1,9 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import Joi from 'joi';
 import { ConfigService } from './config.service';
+import { EEnvironment } from '../enums';
 
 describe('ConfigService', () => {
+  const previousEnv = process.env;
   let service: ConfigService;
+
+  beforeAll(() => {
+    process.env.ENVIRONMENT = EEnvironment.Development;
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,6 +17,10 @@ describe('ConfigService', () => {
     }).compile();
 
     service = module.get<ConfigService>(ConfigService);
+  });
+
+  afterAll(() => {
+    process.env = previousEnv;
   });
 
   it('should be defined', () => {

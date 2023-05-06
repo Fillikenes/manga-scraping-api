@@ -1,24 +1,25 @@
-FROM node:16-alpine as builder
+FROM node:16-alpine AS dev-deps
+WORKDIR /app
+COPY package.json package.json
+RUN npm install
 
-ENV NODE_ENV build
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=dev-deps /app/node_modules ./node_modules
+COPY . .
+RUN npm test
+RUN npm run build
 
-WORKDIR /home/node
+FROM node:16-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package.json
+RUN npm install --production --no-optional
 
-COPY package*.json ./
-RUN npm ci
+FROM node:16-alpine AS prod
+EXPOSE 3000
+WORKDIR /app
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+RUN ls -la
 
-COPY --chown=node:node . .
-RUN npm run build \
-    && npm prune --production
-
-FROM node:16-alpine
-
-ENV NODE_ENV production
-
-WORKDIR /home/node
-
-COPY --from=builder --chown=node:node /home/node/package*.json ./
-COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
-COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
-
-CMD ["node", "dist/main.js"]
+CMD [ "node", "dist/src/main.js" ]
