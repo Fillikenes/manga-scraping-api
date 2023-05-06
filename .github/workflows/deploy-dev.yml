@@ -33,11 +33,15 @@ jobs:
     - name: Build Image
       env:
         SEMATIC_VERSION: ${{ steps.version.outputs.version }}
-      run: docker build -t fillikenes/webscraping-api-test:$SEMATIC_VERSION .
+      run: | 
+        docker build -t fillikenes/webscraping-api-test:$SEMATIC_VERSION .
+        docker tag fillikenes/webscraping-api-test:$SEMATIC_VERSION fillikenes/webscraping-api-test:latest
     - name: Push Image
       env:
         SEMATIC_VERSION: ${{ steps.version.outputs.version }}
-      run: docker push fillikenes/webscraping-api-test:$SEMATIC_VERSION
+      run: |
+        docker push fillikenes/webscraping-api-test:$SEMATIC_VERSION
+        docker push fillikenes/webscraping-api-test:latest
 
   build:
     runs-on: ubuntu-latest
