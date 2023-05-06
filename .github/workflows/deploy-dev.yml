@@ -11,20 +11,34 @@ env:
   PORT: 3000
 
 jobs:
+  deploy: 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code 
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Docker Login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build Image
+      run: docker build -t fillikenes/webscraping-api-test:latest .
+    - name: Push Image
+      run: docker push fillikenes/webscraping-api-test:latest
+
   build:
     runs-on: ubuntu-latest
+    needs: deploy
     strategy:
       matrix:
         node-version: [14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Docker Login
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - uses: actions/checkout@v3
+    - name: Checkout code 
+      uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
