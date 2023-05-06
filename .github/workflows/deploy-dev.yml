@@ -18,15 +18,26 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: Define Semantic Version
+      id: version
+      uses: paulhatch/semantic-version@v5.0.2
+      with:
+        major_pattern: "major:"
+        minor_pattern: "minor:"
+        version_format: "${major}.${minor}.${patch}-prerelease${increment}"
     - name: Docker Login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build Image
-      run: docker build -t fillikenes/webscraping-api-test:latest .
+      env:
+        SEMATIC_VERSION: ${{ steps.version.outputs.version }}
+      run: docker build -t fillikenes/webscraping-api-test:$SEMATIC_VERSION .
     - name: Push Image
-      run: docker push fillikenes/webscraping-api-test:latest
+      env:
+        SEMATIC_VERSION: ${{ steps.version.outputs.version }}
+      run: docker push fillikenes/webscraping-api-test:$SEMATIC_VERSION
 
   build:
     runs-on: ubuntu-latest
