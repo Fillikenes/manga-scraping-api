@@ -56,6 +56,9 @@ jobs:
   deploy: 
     runs-on: ubuntu-latest
     needs: analitics
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_REPOSITORY: ${{ vars.DOCKER_REPOSITORY_DEV }}
     steps:
     - name: Checkout code 
       uses: actions/checkout@v3
@@ -70,18 +73,17 @@ jobs:
         version_format: "${major}.${minor}.${patch}-prerelease${increment}"
     - name: Docker Login
       env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build Image
       env:
         SEMATIC_VERSION: ${{ steps.version.outputs.version }}
       run: | 
-        docker build -t fillikenes/webscraping-api-test:$SEMATIC_VERSION .
-        docker tag fillikenes/webscraping-api-test:$SEMATIC_VERSION fillikenes/webscraping-api-test:latest
+        docker build -t $DOCKER_USER/$DOCKER_REPOSITORY:$SEMATIC_VERSION .
+        docker tag $DOCKER_USER/$DOCKER_REPOSITORY:$SEMATIC_VERSION $DOCKER_USER/$DOCKER_REPOSITORY:latest
     - name: Push Image
       env:
         SEMATIC_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push fillikenes/webscraping-api-test:$SEMATIC_VERSION
-        docker push fillikenes/webscraping-api-test:latest
+        docker push $DOCKER_USER/$DOCKER_REPOSITORY:$SEMATIC_VERSION
+        docker push $DOCKER_USER/$DOCKER_REPOSITORY:latest
