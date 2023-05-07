@@ -1,6 +1,7 @@
 FROM node:16-alpine AS dev-deps
 WORKDIR /app
 COPY package.json package.json
+RUN npm install -g npm@latest
 RUN npm install
 
 FROM node:16-alpine AS builder
@@ -13,7 +14,7 @@ RUN npm run build
 FROM node:16-alpine AS prod-deps
 WORKDIR /app
 COPY package.json package.json
-RUN npm install --production --no-optional
+RUN npm install --omit=dev --omit=optional
 
 FROM node:16-alpine AS prod
 EXPOSE 3000
