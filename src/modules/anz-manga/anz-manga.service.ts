@@ -11,6 +11,7 @@ import { HtmlParserService } from '../../services/html-parser/html-parser.servic
 import { HttpService } from '../../services/http/http.service';
 import { BASE_MANGA_PAGE_URL, BASE_SEARCH_URL } from './constants';
 import {
+  EChapterAttribute,
   EChapterImageAttribute,
   EChapterImageSeparator,
   EChapterImageSeparatorDescription,
@@ -23,7 +24,6 @@ import {
   ISuggestionItemResponse,
   ISuggestionResponse,
 } from './models';
-import { EChapterAttribute } from './enums';
 
 @Injectable()
 export class AnzMangaService implements IMangaScrapingService {
