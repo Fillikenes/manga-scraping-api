@@ -1,7 +1,6 @@
 .git/
 .gitignore
 .env
-node_modules/
 coverage/
 build/
 *.xls*
