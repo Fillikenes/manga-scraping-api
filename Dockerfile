@@ -8,6 +8,7 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=dev-deps /app/node_modules ./node_modules
 COPY ./ /app
+RUN npm install --ignore-scripts -g npm@latest
 RUN npm test
 RUN npm run build
 
