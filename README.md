@@ -1,3 +1,12 @@
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Fillikenes_webscraping-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Fillikenes_webscraping-api)
+
 # Manga Scraping API
 
 This repository is an open source application. The idea is to become the main API to get the information of all the manga's chapters from differents anime sites via scraping.
