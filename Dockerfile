@@ -18,8 +18,10 @@ RUN npm install --ignore-scripts -g npm@latest
 RUN npm install --omit=dev --omit=optional --ignore-scripts
 
 FROM node:16-alpine AS prod
-EXPOSE 3000
 WORKDIR /app
+RUN addgroup -S nonroot && adduser -S nonroot -G nonroot
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+USER nonroot
+EXPOSE 3000
 CMD [ "node", "dist/src/main.js" ]
