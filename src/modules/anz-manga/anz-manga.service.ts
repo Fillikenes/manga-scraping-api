@@ -40,6 +40,7 @@ export class AnzMangaService implements IMangaScrapingService {
       query: { query: value },
       isJson: true,
     });
+    console.log('Serach services anz manga - suggestions', suggestions);
     return suggestions.map((suggestion: ISuggestionItemResponse) => {
       return {
         name: suggestion.value,
@@ -50,6 +51,7 @@ export class AnzMangaService implements IMangaScrapingService {
 
   public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
+    console.log('Ger services anz manga - chapters', chapters);
     const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {
         id: chapter.id,

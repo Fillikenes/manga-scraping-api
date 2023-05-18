@@ -11,6 +11,7 @@ export class AnzMangaController {
   public async get(
     @Query() params: AnzMangaQueryDto,
   ): Promise<IOutboundChapter[]> {
+    console.log('Get controller anz manga');
     return this.anzMangaService.get({ url: params.url });
   }
 
@@ -18,6 +19,7 @@ export class AnzMangaController {
   public async search(
     @Param() params: AnzMangaSearchDto,
   ): Promise<IOutboundSearchResponse[]> {
+    console.log('Seach controller anz manga');
     return this.anzMangaService.search({ value: params.value });
   }
 }
