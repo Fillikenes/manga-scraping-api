@@ -36,8 +36,8 @@ export class AnzMangaService implements IMangaScrapingService {
     value,
   }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
-      url: BASE_SEARCH_URL,
-      query: { query: value },
+      url: `${BASE_SEARCH_URL}${value}`,
+      // query: { query: value },
       isJson: true,
     });
     console.log('Serach services anz manga - suggestions', suggestions);
