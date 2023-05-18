@@ -36,11 +36,10 @@ export class AnzMangaService implements IMangaScrapingService {
     value,
   }: IOutboundSearchParams): Promise<IOutboundSearchResponse[]> {
     const { suggestions }: ISuggestionResponse = await this.httpService.get({
-      url: `${BASE_SEARCH_URL}${value}`,
-      // query: { query: value },
+      url: BASE_SEARCH_URL,
+      query: { query: value },
       isJson: true,
     });
-    console.log('Serach services anz manga - suggestions', suggestions);
     return suggestions.map((suggestion: ISuggestionItemResponse) => {
       return {
         name: suggestion.value,
@@ -51,7 +50,6 @@ export class AnzMangaService implements IMangaScrapingService {
 
   public async get({ url }: IOutboundGetParams): Promise<IOutboundChapter[]> {
     const chapters = await this._getChapters(url);
-    console.log('Ger services anz manga - chapters');
     const chaptersImagesPromises = chapters.map(async (chapter: IChapter) => {
       return {
         id: chapter.id,
@@ -64,11 +62,8 @@ export class AnzMangaService implements IMangaScrapingService {
   }
 
   private async _getChapters(url: string): Promise<IChapter[]> {
-    console.log('_getChapters');
     const { body } = await this.httpService.get({ url });
-    console.log('body', body);
     const document = await this.htmlParser.parseHtml(body);
-    console.log('document', document);
     return [...document.querySelectorAll(EChaptersSelector.Items)].map(
       (element: Element) => {
         const urlSection = element.querySelector(EChapterSelector.Url);
