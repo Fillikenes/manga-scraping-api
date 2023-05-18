@@ -5,12 +5,14 @@ import { IGetParams, IPostParams } from './models';
 @Injectable()
 export class HttpService {
   public async get({ url, headers, query, isJson }: IGetParams): Promise<any> {
+    console.log('into get');
     const options = {
       ...(headers && { headers }),
       ...(query && { searchParams: query }),
     };
-
+    console.log('options', options);
     const request = got.get(url, options);
+    console.log('request', request);
     return isJson ? request.json() : request;
   }
 
